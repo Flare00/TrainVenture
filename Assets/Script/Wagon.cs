@@ -46,6 +46,10 @@ public class Wagon : MonoBehaviour
     {
         float avEssAv = (avancement + (avancementByMeter * distEssieuAvant)) % 1.0f;
         float avEssAr = (avancement + (avancementByMeter * distEssieuArriere)) % 1.0f;
+        if(avEssAv < 0)
+            avEssAv = 1.0f + avEssAv;
+        if (avEssAr < 0)
+            avEssAr = 1.0f + avEssAr;
         posEssieuAvant = chemin.EvaluatePosition(avEssAv);
         posEssieuArriere = chemin.EvaluatePosition(avEssAr);
         this.transform.SetPositionAndRotation((posEssieuAvant + posEssieuArriere) * 0.5f, Quaternion.FromToRotation(Vector3.right, posEssieuAvant - posEssieuArriere));

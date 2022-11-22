@@ -48,6 +48,7 @@ public class Train : MonoBehaviour
         }
     }
 
+
     private void Update()
     {
         float tmpSpeed = speed + (throttle * 0.1f);
@@ -57,7 +58,7 @@ public class Train : MonoBehaviour
         }
 
         avancement += (speed  * avancementByMeter) * Time.deltaTime ;
-        if(avancement >= 2.9f)
+        if(avancement >= 1.0f)
         {
             avancement %= 1.0f;
         }
