@@ -7,19 +7,33 @@ using UnityEngine.Splines;
 [Serializable]
 public class Wagon : MonoBehaviour
 {
-    private Train train;
 
+    private Train train;
+    [SerializeField]
     private float distEssieuAvant;
+    [SerializeField]
     private float distEssieuArriere;
-    private BoxCollider boxCollider;
+    [SerializeField]
+    private float distance;
+
+    [SerializeField]
     private Transform wagonModelTransform;
 
+    public Wagon()
+    {
+
+    }
 
     void Start()
     {
+        GetValues();
+    }
+
+    public void GetValues()
+    {
         this.distEssieuAvant = this.transform.Find("PosEssieuAvant").localPosition.x;
         this.distEssieuArriere = this.transform.Find("PosEssieuArriere").localPosition.x;
-        this.boxCollider = this.GetComponentInChildren<BoxCollider>();
+        this.distance = this.transform.Find("Dist").localPosition.x;
         this.wagonModelTransform = this.transform.Find("Wagon");
     }
 
@@ -36,7 +50,7 @@ public class Wagon : MonoBehaviour
 
     public float GetLength()
     {
-        return this.boxCollider.size.x * wagonModelTransform.localScale.x * this.transform.localScale.x;
+        return this.distance * 2.0f * this.transform.localScale.x;
     }
 
     private Vector3 posEssieuAvant = Vector3.zero;
@@ -60,4 +74,6 @@ public class Wagon : MonoBehaviour
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(posEssieuArriere, posEssieuAvant);
     }
+
+    
 }
