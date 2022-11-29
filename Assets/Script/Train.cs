@@ -27,18 +27,18 @@ public class Train : MonoBehaviour
     public float maxSpeed = 5.0f; //in meter per second 1m/s = 3.6km/h
 
     [SerializeField]
-    public float throttle = 0.1f; // si < 0 : Freine / recule, si = 0 : ne bouge pas / ralentit a cause du poid, si > 0 et suffisant : accélère (ralentit a cause du poid si insuffisant)
+    public float throttle = 0.0f; // si < 0 : Freine / recule, si = 0 : ne bouge pas / ralentit a cause du poid, si > 0 et suffisant : accélère (ralentit a cause du poid si insuffisant)
 
     //private Wagon locomotive;
     private float avancementByMeter = 0.0f;
 
     private void Start()
     {
-        distWagon= new List<float>();
+        distWagon = new List<float>();
         //locomotive = GetComponent<Wagon>();
         avancementByMeter = 1.0f / this.chemin.CalculateLength();
         float distCumul = 0;//locomotive.GetLength()/2;
-        for(int i = 0, max = wagons.Count; i < max; i++)
+        for (int i = 0, max = wagons.Count; i < max; i++)
         {
             wagons[i].SetTrain(this);
 
@@ -51,20 +51,26 @@ public class Train : MonoBehaviour
 
     private void Update()
     {
-        float tmpSpeed = speed + (throttle * 0.1f);
-        if(Math.Abs(tmpSpeed) <= maxSpeed)
+        float tmpSpeed = speed + (throttle *0.1f);
+        if (tmpSpeed < maxSpeed)
         {
+            speed = tmpSpeed;
+        } else { 
             speed = maxSpeed;
         }
+        if(speed < 0)
+        {
+            speed = 0;
+        }
 
-        avancement += (speed  * avancementByMeter) * Time.deltaTime ;
-        if(avancement >= 1.0f)
+        avancement += (speed * avancementByMeter) * Time.deltaTime;
+        if (avancement >= 1.0f)
         {
             avancement %= 1.0f;
         }
 
         //locomotive.ComputePositionRotation(this.chemin, this.avancement, this.avancementByMeter);
-        for(int i = 0, max = wagons.Count; i < max; i++)
+        for (int i = 0, max = wagons.Count; i < max; i++)
         {
             wagons[i].ComputePositionRotation(this.chemin, this.avancement - (distWagon[i] * this.avancementByMeter), this.avancementByMeter);
         }
