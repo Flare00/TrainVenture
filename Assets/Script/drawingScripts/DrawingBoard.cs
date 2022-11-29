@@ -12,6 +12,8 @@ public class DrawingBoard : MonoBehaviour
     private double cumulDist;
     private Vector2 lastPosition;
     private Spline spline;
+    [SerializeField]
+    public SplineContainer sContainer;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,6 +23,7 @@ public class DrawingBoard : MonoBehaviour
         lastPosition[0]=pencil.transform.position[2];
         lastPosition[1]=pencil.transform.position[1];
         spline = new Spline();
+        sContainer.Spline=spline;
     }
 
     // Update is called once per frame
@@ -38,7 +41,8 @@ public class DrawingBoard : MonoBehaviour
 
         if(cumulDist>SAMPLE_THRESHOLD){
             cumulDist=0.0f;
-            spline.Add(new BezierKnot(new float3(pencilX,pencilY,0)));
+            //X goes to the knot's z and y goes to the knot's X. 
+            spline.Add(new BezierKnot(new float3(pencilY,0.0f,pencilX)));
             print("added knot with position "+spline[spline.Count-1].Position.ToString());
             //print("sampled x,y : "+pencilX.ToString()+", "+pencilY.ToString());
         }
