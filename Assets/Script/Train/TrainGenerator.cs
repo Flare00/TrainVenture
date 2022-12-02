@@ -35,7 +35,7 @@ public class TrainGenerator
         switch (type)
         {
             case TrainData.WagonType.LOCOMOTIVE_1:
-                wagonGO = GameObject.Instantiate(Resources.Load("Prefabs/Wagon_simple") as GameObject);
+                wagonGO = GameObject.Instantiate(Resources.Load("Prefabs/Locomotive") as GameObject);
                 break;
             case TrainData.WagonType.WAGON_1:
                 wagonGO = GameObject.Instantiate(Resources.Load("Prefabs/Wagon_simple") as GameObject);

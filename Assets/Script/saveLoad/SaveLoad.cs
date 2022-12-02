@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
-
+using UnityEngine.Splines;
 
 public class SaveLoad
 {
@@ -49,4 +49,23 @@ public class SaveLoad
         }
         return null;
     }
+	
+	public void SaveSpline(Spline spline, string name){
+		FileStream fs = new FileStream(this.save_folder + name, FileMode.Create);
+        this.br.Serialize(fs, spline);
+        fs.Close();
+	}
+	
+    public Spline LoadSpline(string name)
+    {
+        if (File.Exists(this.save_folder + name))
+        {
+            FileStream fs = new FileStream(this.save_folder + name, FileMode.Open);
+            Spline res = this.br.Deserialize(fs) as Spline;
+            fs.Close();
+            return res;
+        }
+        return null;
+    }
+	
 }

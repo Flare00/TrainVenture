@@ -66,7 +66,9 @@ public class Wagon : MonoBehaviour
             avEssAr = 1.0f + avEssAr;
         posEssieuAvant = chemin.EvaluatePosition(avEssAv);
         posEssieuArriere = chemin.EvaluatePosition(avEssAr);
-        this.transform.SetPositionAndRotation((posEssieuAvant + posEssieuArriere) * 0.5f, Quaternion.FromToRotation(Vector3.right, posEssieuAvant - posEssieuArriere));
+		Vector3 right = Vector3.Cross(Vector3.up, posEssieuArriere - posEssieuAvant);
+		Vector3 up = Vector3.Cross(posEssieuArriere - posEssieuAvant, right);
+        this.transform.SetPositionAndRotation((posEssieuAvant + posEssieuArriere) * 0.5f, Quaternion.LookRotation(right, up));
     }
 
     private void OnDrawGizmos()
