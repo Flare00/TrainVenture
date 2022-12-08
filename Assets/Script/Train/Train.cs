@@ -9,6 +9,8 @@ public class Train : MonoBehaviour
 {
     public SplineContainer chemin;
 
+    public LeverValue speedLever;
+
     public List<Wagon> wagons;
     private List<float> distWagon;
 
@@ -34,6 +36,10 @@ public class Train : MonoBehaviour
 
     private void Update()
     {
+        if(speedLever != null)
+        {
+            this.throttle = speedLever.value;
+        }
         float tmpSpeed = speed + (throttle *0.1f);
         if (tmpSpeed < maxSpeed)
         {
@@ -83,6 +89,8 @@ public class Train : MonoBehaviour
             distWagon.Add(distCumul + (tmpDist / 2.0f));
             distCumul += tmpDist;
         }
+
+        this.speedLever = gameObject.GetComponentInChildren<LeverValue>();
     }
 
 
