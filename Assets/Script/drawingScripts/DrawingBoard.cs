@@ -8,7 +8,7 @@ using Unity.Mathematics;
 public class DrawingBoard : MonoBehaviour
 {
     public GameObject pencil;
-    static double SAMPLE_THRESHOLD=1;
+    static double SAMPLE_THRESHOLD=0.25;
     private double cumulDist;
     private Vector2 lastPosition;
     private Spline spline;
@@ -31,8 +31,9 @@ public class DrawingBoard : MonoBehaviour
     {
         //x position on board is pencil.transform.position[2] and y is pencil.transform.position[1].
 
-        float pencilX = pencil.transform.position[2];
-        float pencilY = pencil.transform.position[1];
+        Vector3 worldTransform = (pencil.transform.position-new Vector3(0.0f,1.0f,0.0f))*5.0f;//have to multiply by 5 because plane has scale 0.2
+        float pencilX = -worldTransform[2];//minus to accomodate for 180 degrees rotation.
+        float pencilY = worldTransform[1];
 
         cumulDist += System.Math.Sqrt(
                         System.Math.Pow(pencilX-lastPosition[0],2)
@@ -44,7 +45,6 @@ public class DrawingBoard : MonoBehaviour
             //X goes to the knot's z and y goes to the knot's X. 
             spline.Add(new BezierKnot(new float3(pencilY,0.0f,pencilX)));
             print("added knot with position "+spline[spline.Count-1].Position.ToString());
-            //print("sampled x,y : "+pencilX.ToString()+", "+pencilY.ToString());
         }
 
         lastPosition[0]=pencilX;
