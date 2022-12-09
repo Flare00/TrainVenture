@@ -38,7 +38,7 @@ public class Train : MonoBehaviour
     {
         if(speedLever != null)
         {
-            this.throttle = speedLever.value;
+            this.throttle = speedLever.valeur;
         }
         float tmpSpeed = speed + (throttle *0.1f);
         if (tmpSpeed < maxSpeed)

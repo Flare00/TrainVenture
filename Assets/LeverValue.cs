@@ -16,7 +16,7 @@ public class LeverValue : MonoBehaviour
     public float maxValue = 1.0f;
 
 
-    public float value = 0.0f;
+    public float valeur = 0.0f;
 
     private Vector3 last;
     // Start is called before the first frame update
@@ -28,25 +28,24 @@ public class LeverValue : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(leverParent)
-        Vector3 v = lever.transform.localPosition;
-        Debug.Log(v);
-        if (v != last)
-        {
-            last = v;
-            if (v[axis] > maxDist)
-            {
-                v[axis] = maxDist;
-                lever.transform.localPosition = v;
-            }
-            else if (v[axis] < minDist)
-            {
-                v[axis] = minDist;
-                lever.transform.localPosition = v;
-            }
+			Vector3 v = lever.transform.localPosition;
+			Debug.Log(v);
+			if (v != last)
+			{
+				last = v;
+				if (v[axis] > maxDist)
+				{
+					v[axis] = maxDist;
+					lever.transform.localPosition = v;
+				}
+				else if (v[axis] < minDist)
+				{
+					v[axis] = minDist;
+					lever.transform.localPosition = v;
+				}
 
-            value = (((v[axis] - minDist) / (maxDist - minDist)) * (maxValue - minValue)) + minValue;
+				valeur = (((v[axis] - minDist) / (maxDist - minDist)) * (maxValue - minValue)) + minValue;
 
-        }
+			}
     }
 }
