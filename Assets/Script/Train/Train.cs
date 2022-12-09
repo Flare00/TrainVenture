@@ -84,13 +84,14 @@ public class Train : MonoBehaviour
         for (int i = 0, max = wagons.Count; i < max; i++)
         {
             wagons[i].SetTrain(this);
+			if(this.speedLever == null){
+				this.speedLever = wagons[i].gameObject.GetComponentInChildren<LeverValue>();
+			}
 
             float tmpDist = wagons[i].GetLength();
             distWagon.Add(distCumul + (tmpDist / 2.0f));
             distCumul += tmpDist;
         }
-
-        this.speedLever = gameObject.GetComponentInChildren<LeverValue>();
     }
 
 
