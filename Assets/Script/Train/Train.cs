@@ -20,6 +20,8 @@ public class Train : MonoBehaviour
     public float maxSpeed = 5.0f; //in meter per second 1m/s = 3.6km/h
     public float throttle = 0.0f; // si < 0 : Freine / recule, si = 0 : ne bouge pas / ralentit a cause du poid, si > 0 et suffisant : accélère (ralentit a cause du poid si insuffisant)
 
+	public float acceleratorMultiplicator = 0.1f;
+	public float brakeMultiplicator = 0.3f;
     //private Wagon locomotive;
     private float avancementByMeter = 0.0f;
 
@@ -40,7 +42,8 @@ public class Train : MonoBehaviour
         {
             this.throttle = speedLever.valeur;
         }
-        float tmpSpeed = speed + (throttle *0.1f);
+		float multiplicator = this.throttle >= 0 ? acceleratorMultiplicator : brakeMultiplicator;
+        float tmpSpeed = speed + (throttle * multiplicator);
         if (tmpSpeed < maxSpeed)
         {
             speed = tmpSpeed;
