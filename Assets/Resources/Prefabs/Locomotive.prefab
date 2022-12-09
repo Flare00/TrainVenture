@@ -744,7 +744,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6755920778289608212}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 4.5, y: 1.05, z: 0}
+  m_LocalPosition: {x: 5, y: 1.05, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -859,36 +859,6 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 4092535103899409248}
     m_Modifications:
-    - target: {fileID: 131963954867294308, guid: 34b9a6ec65ec8dc4c81105132240dcd0,
-        type: 3}
-      propertyPath: m_ConnectedAnchor.x
-      value: -0.017000198
-      objectReference: {fileID: 0}
-    - target: {fileID: 131963954867294308, guid: 34b9a6ec65ec8dc4c81105132240dcd0,
-        type: 3}
-      propertyPath: m_ConnectedAnchor.y
-      value: 1.2999988
-      objectReference: {fileID: 0}
-    - target: {fileID: 131963954867294308, guid: 34b9a6ec65ec8dc4c81105132240dcd0,
-        type: 3}
-      propertyPath: m_LinearLimit.limit
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 2955093415110390956, guid: 34b9a6ec65ec8dc4c81105132240dcd0,
-        type: 3}
-      propertyPath: m_Drag
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2955093415110390956, guid: 34b9a6ec65ec8dc4c81105132240dcd0,
-        type: 3}
-      propertyPath: m_AngularDrag
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2955093415110390956, guid: 34b9a6ec65ec8dc4c81105132240dcd0,
-        type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3008029350154426678, guid: 34b9a6ec65ec8dc4c81105132240dcd0,
         type: 3}
       propertyPath: m_RootOrder
@@ -948,26 +918,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AttachTransform
       value: 
-      objectReference: {fileID: 563269136074201750}
+      objectReference: {fileID: 3215795420732270751}
     - target: {fileID: 4493145355284432456, guid: 34b9a6ec65ec8dc4c81105132240dcd0,
         type: 3}
       propertyPath: m_Name
       value: SpeedLever
-      objectReference: {fileID: 0}
-    - target: {fileID: 5452561846157785835, guid: 34b9a6ec65ec8dc4c81105132240dcd0,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230307947476032956, guid: 34b9a6ec65ec8dc4c81105132240dcd0,
-        type: 3}
-      propertyPath: maxDist
-      value: 0.2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8230307947476032956, guid: 34b9a6ec65ec8dc4c81105132240dcd0,
-        type: 3}
-      propertyPath: minDist
-      value: -0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []

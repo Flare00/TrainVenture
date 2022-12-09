@@ -54,10 +54,10 @@ public class ProceduralGeneration : MonoBehaviour
 		for(int i = 0; i < spline.Count; i++){
 			BezierKnot b = spline[i];
 			
-			Debug.Log(b.Position[0] + " ; " + b.Position[1]  + " ; " + b.Position[2]);
+			//Debug.Log(b.Position[0] + " ; " + b.Position[1]  + " ; " + b.Position[2]);
 			b.Position[0] = b.Position[0] * (float)(resolution / 2);
 			b.Position[2] = b.Position[2] * (float)(resolution / 2);
-			Debug.Log(b.Position[0] + " ; " + b.Position[1]  + " ; " + b.Position[2]);
+			//Debug.Log(b.Position[0] + " ; " + b.Position[1]  + " ; " + b.Position[2]);
 			b.Position[1] = heightmap[(int)b.Position[0],(int) b.Position[2]] * 1024.0f ;
 			spline[i] = b;
 		}
