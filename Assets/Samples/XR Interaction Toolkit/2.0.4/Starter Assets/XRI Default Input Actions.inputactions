@@ -1073,6 +1073,102 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "OculusSpecial",
+            "id": "60f66f9e-f829-4cef-9308-4c50f3c50e61",
+            "actions": [
+                {
+                    "name": "PrimaryTouched",
+                    "type": "Button",
+                    "id": "1bd80892-f35a-4318-b189-59249c20172c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SecondaryTouched",
+                    "type": "Button",
+                    "id": "777e6007-ce19-41b6-a25a-594284d3592f",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "TriggerTouched",
+                    "type": "Button",
+                    "id": "c98bf45e-e247-4a81-8dd2-d128c186eec7",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "a23e417a-fe81-468f-bc31-bbae2c701f87",
+                    "path": "<XRController>{RightHand}/primaryTouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "PrimaryTouched",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8a985432-3edf-4139-befd-a54b0fa65ab4",
+                    "path": "<XRController>{RightHand}/secondaryTouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SecondaryTouched",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a8e3a760-60b2-4894-a296-30024d0f20d9",
+                    "path": "<XRController>{RightHand}/triggerTouched",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "TriggerTouched",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Other",
+            "id": "aa2c6475-e7b0-4b97-90f5-a77779bb73d2",
+            "actions": [
+                {
+                    "name": "Menu",
+                    "type": "Button",
+                    "id": "fe77838f-a7e9-49ee-814b-0f714fa072e0",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c28653dd-79ea-41ca-928b-a25706fda50e",
+                    "path": "<XRController>/menu",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": [

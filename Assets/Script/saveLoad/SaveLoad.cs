@@ -10,14 +10,11 @@ public class SaveLoad
 
     public static SaveLoad GetInstance()
     {
-        if(instance == null)
-        {
-            instance = new SaveLoad();
-        } 
+        instance ??= new SaveLoad(); 
         return instance;
     }
 
-    private BinaryFormatter br;
+    private readonly BinaryFormatter br;
     public string save_folder;
 
 
@@ -33,7 +30,7 @@ public class SaveLoad
 
     public void Save(IDataSave data, string name)
     {
-        FileStream fs = new FileStream(this.save_folder + name, FileMode.Create);
+        FileStream fs = new(this.save_folder + name, FileMode.Create);
         this.br.Serialize(fs, data);
         fs.Close();
     }
@@ -42,7 +39,7 @@ public class SaveLoad
     {
         if (File.Exists(this.save_folder + name))
         {
-            FileStream fs = new FileStream(this.save_folder + name, FileMode.Open);
+            FileStream fs = new(this.save_folder + name, FileMode.Open);
             IDataSave res = this.br.Deserialize(fs) as IDataSave;
             fs.Close();
             return res;
@@ -51,7 +48,7 @@ public class SaveLoad
     }
 	
 	public void SaveSpline(Spline spline, string name){
-		FileStream fs = new FileStream(this.save_folder + name, FileMode.Create);
+		FileStream fs = new(this.save_folder + name, FileMode.Create);
         this.br.Serialize(fs, spline);
         fs.Close();
 	}
@@ -60,7 +57,7 @@ public class SaveLoad
     {
         if (File.Exists(this.save_folder + name))
         {
-            FileStream fs = new FileStream(this.save_folder + name, FileMode.Open);
+            FileStream fs = new(this.save_folder + name, FileMode.Open);
             Spline res = this.br.Deserialize(fs) as Spline;
             fs.Close();
             return res;

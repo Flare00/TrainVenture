@@ -17,6 +17,8 @@ public class TrainGenerator
         Train train = tGo.AddComponent<Train>();
 
         train.SetData(path, avancement, direction, maxSpeed, speed, throttle);
+        train.LoadUpgradeData();
+
         for (int i = 0; i < types.Count; i++)
         {
             Wagon wag = GenerateWagon(types[i]);

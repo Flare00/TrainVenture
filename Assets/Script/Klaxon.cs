@@ -15,11 +15,11 @@ public class Klaxon : MonoBehaviour
 
 
 	
-	public void Select(){
+	public void Enter(){
 		audioS.Play();
 		transform.localPosition = pushPos;		
 	}
-	public void Deselect(){
+	public void Exit(){
 		transform.localPosition = initialPos;
 	}
 }
