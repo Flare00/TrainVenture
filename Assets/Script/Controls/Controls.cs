@@ -11,6 +11,7 @@ public class Controls : MonoBehaviour
 {
     public static bool FORCE_RAYCAST = false;
     public GameObject raycastInteractor;
+    public GameObject anchor;
 
     public InputActionProperty triggerAction;
     public InputActionProperty gripAction;
@@ -20,6 +21,7 @@ public class Controls : MonoBehaviour
     private void Start()
     {
 
+        raycastInteractor.SetActive(false);
     }
     private void Update()
     {
@@ -33,18 +35,24 @@ public class Controls : MonoBehaviour
 
         if (!FORCE_RAYCAST)
         {
-            if (grip > 0.1f)
-                if (!raycast_status) { 
+            if (trigger > 0.1f)
+            {
+                if (!raycast_status)
+                {
                     raycastInteractor.SetActive(true);
                     raycast_status = true;
                 }
+            }
             else
+            {
                 if (raycast_status)
                 {
                     raycastInteractor.SetActive(false);
                     raycast_status = false;
                 }
-        } else
+            }
+        }
+        else
         {
             if (!raycast_status)
             {
@@ -65,6 +73,5 @@ public class Controls : MonoBehaviour
         selectAction.DisableDirectAction();
         selectValueAction.DisableDirectAction();
     }*/
-
 
 }

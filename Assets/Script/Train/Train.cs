@@ -1,16 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Splines;
 
 [Serializable]
 public class Train : MonoBehaviour
 {
-
-    private static float[] MAX_SPEED_VALUES = { 14.0f, 20.0f, 30.0f, 41.0f, 55.0f, 72.0f }; //environ { 50, 75, 110, 150 , 200, 260 } kmh
-    private static float[] ACCELERATION_VALUES = { 0.1f, 0.15f, 0.25f, 0.4f, 0.6f, 0.9f };
-    private static float[] BRAKE_VALUES = { 0.3f, 0.6f, 1.0f, 1.5f, 2.2f, 3.0f };
+    private static readonly float[] MAX_SPEED_VALUES = { 14.0f, 20.0f, 30.0f, 41.0f, 55.0f, 72.0f }; //environ { 50, 75, 110, 150 , 200, 260 } kmh
+    private static readonly float[] ACCELERATION_VALUES = { 0.1f, 0.15f, 0.25f, 0.4f, 0.6f, 0.9f };
+    private static readonly float[] BRAKE_VALUES = { 0.3f, 0.6f, 1.0f, 1.5f, 2.2f, 3.0f };
 
     public SplineContainer chemin;
 
@@ -40,6 +40,14 @@ public class Train : MonoBehaviour
     {
         ShopData.GetInstance().SubscribeUpgradeChange(LoadUpgradeData);
         UpdateData();
+    }
+
+    private void FixedUpdate()
+    {
+        foreach(Wagon wagon in wagons)
+        {
+            wagon.SetToInitial();
+        }
     }
 
 
@@ -85,6 +93,7 @@ public class Train : MonoBehaviour
         this.maxSpeed = maxSpeed;
         this.speed = speed;
         this.throttle = throttle;
+
     }
 
     public void UpdateData()
@@ -93,17 +102,17 @@ public class Train : MonoBehaviour
         //locomotive = GetComponent<Wagon>();
         avancementByMeter = 1.0f / this.chemin.CalculateLength();
         float distCumul = 0;//locomotive.GetLength()/2;
+
         for (int i = 0, max = wagons.Count; i < max; i++)
         {
             wagons[i].SetTrain(this);
-            if (this.speedLever == null)
-            {
-                this.speedLever = wagons[i].gameObject.GetComponentInChildren<LeverValue>();
-            }
-
             float tmpDist = wagons[i].GetLength();
             distWagon.Add(distCumul + (tmpDist / 2.0f));
             distCumul += tmpDist;
+        }
+
+        if(wagons.Count > 0) {
+            this.speedLever = wagons[0].gameObject.GetComponentInChildren<LeverValue>();
         }
     }
 
@@ -122,6 +131,7 @@ public class Train : MonoBehaviour
         max = BRAKE_VALUES.Length;
         this.brakeMultiplicator = BRAKE_VALUES[tmpval < 0 ? 0 : tmpval >= max ? max - 1 : tmpval];
     }
+
 
    
 

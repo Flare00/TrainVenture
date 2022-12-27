@@ -4,22 +4,23 @@ using UnityEngine;
 
 public class Klaxon : MonoBehaviour
 {
-	public AudioSource audioS;
-	public Vector3 pushPos;
-	private Vector3 initialPos;
-	
+    public AudioSource audioS;
+    public Vector3 pushPos;
+    private Vector3 initialPos;
+
     void Start()
     {
         initialPos = transform.localPosition;
     }
 
-
-	
-	public void Enter(){
-		audioS.Play();
-		transform.localPosition = pushPos;		
-	}
-	public void Exit(){
-		transform.localPosition = initialPos;
-	}
+    public void Enter()
+    {
+        if (audioS != null)
+            audioS.Play();
+        transform.localPosition = pushPos;
+    }
+    public void Exit()
+    {
+        transform.localPosition = initialPos;
+    }
 }

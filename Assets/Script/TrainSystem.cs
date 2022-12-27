@@ -8,9 +8,13 @@ public class TrainSystem : MonoBehaviour
     public SplineContainer spline;
 	public GameObject xr_rig;
 	private Train train;
+
+    void Awake()
+    {
+        ShopData.GetInstance(); //Create the Shop if does not exist (permit load of data).
+    }
     void Start()
     {
-        ShopData.GetInstance();
         List<TrainData.WagonType> wagonList = new()
         {
             TrainData.WagonType.LOCOMOTIVE_1,
@@ -29,15 +33,14 @@ public class TrainSystem : MonoBehaviour
             throttle = 0
         };
 
-        this.train = TrainGenerator.GenerateTrain(data, spline);
-		xr_rig.transform.SetParent(this.train.wagons[0].transform, false);
-        /*  xr_rig.transform.position = this.train.wagons[0].transform.Find("XR_ANCHOR").position;
-		    xr_rig.transform.rotation = this.train.wagons[0].transform.Find("XR_ANCHOR").rotation; */
-		xr_rig.transform.SetPositionAndRotation(this.train.wagons[0].transform.Find("XR_ANCHOR").position, this.train.wagons[0].transform.Find("XR_ANCHOR").rotation);
-        //SaveLoad.GetInstance().Save(data, "test.data");
+        train = TrainGenerator.GenerateTrain(data, spline);
 
-        //TrainGenerator.GenerateTrain(SaveLoad.GetInstance().Load("test.data") as TrainData, spline);
+        Transform interior = train.wagons[0].transform.Find("WagonInterior");
+        if(interior != null)
+        xr_rig.transform.SetParent(interior, false);
+        xr_rig.transform.SetPositionAndRotation(interior.Find("XR_ANCHOR").position, interior.Find("XR_ANCHOR").rotation);
     }
 
+    
 
 }

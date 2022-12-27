@@ -12,7 +12,7 @@ public class TrainGenerator
 
     public static Train GenerateTrain(SplineContainer path, bool direction, float avancement, float maxSpeed, float speed, float throttle, List<TrainData.WagonType> types)
     {
-        GameObject tGo = new GameObject("Train");
+        GameObject tGo = new("Train");
 
         Train train = tGo.AddComponent<Train>();
 

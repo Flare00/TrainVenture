@@ -7,6 +7,8 @@ using UnityEngine.Splines;
 [Serializable]
 public class Wagon : MonoBehaviour
 {
+    private Vector3 initialPos;
+    private Quaternion initialRot;
 
     private Train train;
     [SerializeField]
@@ -26,7 +28,16 @@ public class Wagon : MonoBehaviour
 
     void Start()
     {
+        initialPos = transform.position;
+        initialRot = transform.rotation;
+
         GetValues();
+    }
+
+    public void SetToInitial()
+    {
+        transform.position = initialPos;
+        transform.rotation = initialRot;
     }
 
     public void GetValues()

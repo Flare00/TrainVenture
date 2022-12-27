@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: a0ba3948d07fcbb40a5693c65475b73e
+guid: 9380e3753f16bdd498ba75c7931f08f0
 ModelImporter:
   serializedVersion: 22103
   internalIDToNameTable: []
@@ -7,18 +7,8 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: CabinGlass
-    second: {fileID: 2100000, guid: 66cc91950ff9a6f4c97810172bde6fa4, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Cylindre
-    second: {fileID: 2100000, guid: ac4068f52862b8848a129ff991f72ced, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: SortieVapeur
-    second: {fileID: 2100000, guid: ac4068f52862b8848a129ff991f72ced, type: 2}
+      name: Handle
+    second: {fileID: 2100000, guid: 660011a431b74424e97d4c2fb46616db, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -50,7 +40,7 @@ ModelImporter:
     isReadable: 0
   meshes:
     lODScreenPercentages: []
-    globalScale: 1
+    globalScale: 0.1
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
@@ -104,7 +94,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 0.1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
