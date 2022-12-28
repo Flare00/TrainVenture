@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,22 +6,26 @@ using UnityEngine;
 public class Klaxon : MonoBehaviour
 {
     public AudioSource audioS;
-    public Vector3 pushPos;
-    private Vector3 initialPos;
+    public float enclenchementValue = 0.9f;
+    public LeverValue lever;
 
     void Start()
     {
-        initialPos = transform.localPosition;
     }
 
-    public void Enter()
+    private void Update()
     {
+        Debug.Log("Value : " + lever.valeur);
+
         if (audioS != null)
-            audioS.Play();
-        transform.localPosition = pushPos;
-    }
-    public void Exit()
-    {
-        transform.localPosition = initialPos;
+        {
+            if (lever.valeur > enclenchementValue )
+            {
+                if(!audioS.isPlaying)
+                {
+                    audioS.Play();
+                }
+            }
+        }
     }
 }

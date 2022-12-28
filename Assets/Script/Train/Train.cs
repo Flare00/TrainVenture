@@ -119,10 +119,10 @@ public class Train : MonoBehaviour
         }
 
         if(wagons.Count > 0) {
-            GameObject wagon0 = wagons[0].gameObject;
+            Transform wagonInterior = wagons[0].transform.Find("WagonInterior");
 
-            this.speedLever = wagon0.GetComponentInChildren<LeverValue>();
-            this.compteurVitesse = wagon0.transform.Find("WagonInterior").Find("Compteurs").Find("Vitesse").GetComponent<Compteur>();
+            this.speedLever = wagonInterior.Find("SpeedLever").GetComponentInChildren<LeverValue>();
+            this.compteurVitesse = wagonInterior.Find("Compteurs").Find("Vitesse").GetComponent<Compteur>();
             if(this.compteurVitesse!= null)
             {
                 this.compteurVitesse.SetLimit(this.maxSpeed * 3.6f);
