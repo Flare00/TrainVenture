@@ -30,6 +30,8 @@ public class Train : MonoBehaviour
     //private Wagon locomotive;
     private float avancementByMeter = 0.0f;
 
+    public Compteur compteurVitesse = null;
+
     public Train()
     {
         wagons = new List<Wagon>();
@@ -83,6 +85,11 @@ public class Train : MonoBehaviour
         {
             wagons[i].ComputePositionRotation(this.chemin, this.avancement - (distWagon[i] * this.avancementByMeter), this.avancementByMeter);
         }
+
+        if(compteurVitesse != null)
+        {
+            compteurVitesse.SetValue(speed*3.6f);
+        }
     }
 
     public void SetData(SplineContainer chemin, float avancement = 0.0f, bool direction = true, float maxSpeed = 5.0f, float speed = 0.0f, float throttle = 0.0f)
@@ -112,7 +119,14 @@ public class Train : MonoBehaviour
         }
 
         if(wagons.Count > 0) {
-            this.speedLever = wagons[0].gameObject.GetComponentInChildren<LeverValue>();
+            GameObject wagon0 = wagons[0].gameObject;
+
+            this.speedLever = wagon0.GetComponentInChildren<LeverValue>();
+            this.compteurVitesse = wagon0.transform.Find("WagonInterior").Find("Compteurs").Find("Vitesse").GetComponent<Compteur>();
+            if(this.compteurVitesse!= null)
+            {
+                this.compteurVitesse.SetLimit(this.maxSpeed * 3.6f);
+            }
         }
     }
 
@@ -122,6 +136,10 @@ public class Train : MonoBehaviour
         int tmpval = ShopData.GetInstance().upgrade.maxSpeedSelected - 1;
         int max = MAX_SPEED_VALUES.Length;
         this.maxSpeed = MAX_SPEED_VALUES[tmpval < 0 ? 0 : tmpval >= max ? max - 1 : tmpval];
+        if(compteurVitesse != null)
+        {
+            compteurVitesse.SetLimit(this.maxSpeed * 3.6f);
+        }
 
         tmpval = ShopData.GetInstance().upgrade.accelerationSelected - 1;
         max = ACCELERATION_VALUES.Length;
