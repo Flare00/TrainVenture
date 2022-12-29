@@ -7,7 +7,6 @@ using UnityEngine.SceneManagement;
 public class MainMenuScript : MonoBehaviour
 {
 
-
     public GameObject mainMenu;
     public GameObject optionsMenu;
 

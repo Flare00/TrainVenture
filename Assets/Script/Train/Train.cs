@@ -18,6 +18,8 @@ public class Train : MonoBehaviour
 
     public LeverValue speedLever;
     private Furnace four;
+    private WindZone wind;
+
 
     public List<Wagon> wagons;
     private List<float> distWagon;
@@ -106,6 +108,10 @@ public class Train : MonoBehaviour
         {
             compteurVitesse.SetValue(speed * 3.6f);
         }
+        if(wind != null)
+        {
+            wind.windMain = speed / 5.0f;
+        }
         if (this.compteurPression != null)
         {
             this.compteurPression.SetValue(four.pression);
@@ -169,6 +175,7 @@ public class Train : MonoBehaviour
             }
 
             this.four = wagons[0].transform.Find("Four").GetComponent<Furnace>();
+            this.wind = wagons[0].transform.GetComponentInChildren<WindZone>();
 
             LocomotiveInteraction li = wagons[0].GetComponent<LocomotiveInteraction>();
             if(li != null)

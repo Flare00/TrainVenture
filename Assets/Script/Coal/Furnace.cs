@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Furnace : MonoBehaviour
 {
+    public ParticleSystem smoke;
+
     public GameObject content;
     public float maxHeight = 1.96f;
     public float minHeight = 1.90f;
@@ -52,6 +54,12 @@ public class Furnace : MonoBehaviour
         } else if(pression > 1.0f)
         {
             pression -= Time.deltaTime * 0.1f;
+        }
+
+        if(smoke != null)
+        {
+            var emission = smoke.emission;
+            emission.rateOverTimeMultiplier = pression > 3 ? pression : 0;
         }
 
         if(pression > maxPression)
