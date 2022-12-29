@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - UIButton
+  - Tools
+  - Coal
+  - Furnace
+  - Gare
+  - Locomotive
   layers:
   - Default
   - TransparentFX
@@ -13,8 +19,8 @@ TagManager:
   - UI
   - Grab
   - Grab Ignore Ray
-  - 
-  - 
+  - Wall
+  - Ignore Wall
   - 
   - 
   - 

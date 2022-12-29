@@ -168,6 +168,12 @@ public class Train : MonoBehaviour
             }
 
             this.four = wagons[0].transform.Find("Four").GetComponent<Furnace>();
+
+            LocomotiveInteraction li = wagons[0].GetComponent<LocomotiveInteraction>();
+            if(li != null)
+            {
+                li.train = this;
+            }
         }
     }
 

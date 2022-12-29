@@ -11,10 +11,8 @@ public class Shovel : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("HIT : " + other.tag);
         if(other.tag == "Coal")
         {
-            Debug.Log("COAL");
             CoalBox c = other.gameObject.GetComponent<CoalBox>();
             quantity += c.GetCoal(maxQuantity - quantity);
             if(quantity > 0)
@@ -23,7 +21,6 @@ public class Shovel : MonoBehaviour
             }
         } else if (other.tag == "Furnace")
         {
-            Debug.Log("FOUR");
             Furnace f = other.gameObject.GetComponent<Furnace>();
             quantity = f.PutCoal(quantity);
             if(quantity <= 0) { 

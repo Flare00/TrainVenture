@@ -20,24 +20,45 @@ public class CoalBox : MonoBehaviour
         }
     }
 
+    public void Refill()
+    {
+        this.quantity = maxQuantity;
+        RefreshLevelCoal();
+    }
+
     public int GetCoal(int max)
     {
+        int res = max;
         if(max < quantity)
         {
             quantity -= max;
-
-            Vector3 pos = content.transform.localPosition;
-            pos.y = (((float)quantity / (float)maxQuantity) * (maxHeight - minHeight)) + minHeight;
-            content.transform.localPosition = pos;
-
-            return max;
-        } else
+        } 
+        else
         {
+            res = quantity;
             quantity = 0;
-            content.SetActive(false);
-            return quantity;
         }
+
+        RefreshLevelCoal();
+        return res;
     }
 
+    public void RefreshLevelCoal()
+    {
+        if (content != null)
+        {
+            if (quantity > 0)
+            {
+                content.SetActive(true);
+                Vector3 pos = content.transform.localPosition;
+                pos.y = (((float)quantity / (float)maxQuantity) * (maxHeight - minHeight)) + minHeight;
+                content.transform.localPosition = pos;
+            }
+            else
+            {
+                content.SetActive(false);
+            }
+        }
+    }
 
 }
