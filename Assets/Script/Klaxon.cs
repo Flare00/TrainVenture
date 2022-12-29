@@ -15,8 +15,6 @@ public class Klaxon : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log("Value : " + lever.valeur);
-
         if (audioS != null)
         {
             if (lever.valeur > enclenchementValue )

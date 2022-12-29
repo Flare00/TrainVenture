@@ -7,6 +7,7 @@ public class TrainSystem : MonoBehaviour
 {
     public SplineContainer spline;
 	public GameObject xr_rig;
+	public GameObject terrain;
 	private Train train;
 
     void Awake()
@@ -33,7 +34,7 @@ public class TrainSystem : MonoBehaviour
             throttle = 0
         };
 
-        train = TrainGenerator.GenerateTrain(data, spline);
+        train = TrainGenerator.GenerateTrain(data,terrain, spline);
 
         Transform interior = train.wagons[0].transform.Find("WagonInterior");
         if(interior != null)

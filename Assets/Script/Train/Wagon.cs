@@ -7,6 +7,18 @@ using UnityEngine.Splines;
 [Serializable]
 public class Wagon : MonoBehaviour
 {
+    public class Result
+    {
+        public Vector3 position;
+        public Quaternion rotation;
+
+        public Result(Vector3 position, Quaternion rotation)
+        {
+            this.position = position;
+            this.rotation = rotation;
+        }
+    }
+
     private Vector3 initialPos;
     private Quaternion initialRot;
 
@@ -67,7 +79,7 @@ public class Wagon : MonoBehaviour
     private Vector3 posEssieuAvant = Vector3.zero;
     private Vector3 posEssieuArriere= Vector3.zero;
 
-    public void ComputePositionRotation(SplineContainer chemin, float avancement, float avancementByMeter)
+    public Result ComputePositionRotation(SplineContainer chemin, float avancement, float avancementByMeter)
     {
         float avEssAv = (avancement + (avancementByMeter * distEssieuAvant)) % 1.0f;
         float avEssAr = (avancement + (avancementByMeter * distEssieuArriere)) % 1.0f;
@@ -79,7 +91,9 @@ public class Wagon : MonoBehaviour
         posEssieuArriere = chemin.EvaluatePosition(avEssAr);
 		Vector3 right = Vector3.Cross(Vector3.up, posEssieuArriere - posEssieuAvant);
 		Vector3 up = Vector3.Cross(posEssieuArriere - posEssieuAvant, right);
-        this.transform.SetPositionAndRotation((posEssieuAvant + posEssieuArriere) * 0.5f, Quaternion.LookRotation(right, up));
+
+
+        return new Result((posEssieuAvant + posEssieuArriere) * 0.5f, Quaternion.LookRotation(right, up));
     }
 
     private void OnDrawGizmos()

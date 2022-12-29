@@ -12,9 +12,11 @@ public class Train : MonoBehaviour
     private static readonly float[] ACCELERATION_VALUES = { 0.1f, 0.15f, 0.25f, 0.4f, 0.6f, 0.9f };
     private static readonly float[] BRAKE_VALUES = { 0.3f, 0.6f, 1.0f, 1.5f, 2.2f, 3.0f };
 
+    public GameObject terrain;
     public SplineContainer chemin;
 
     public LeverValue speedLever;
+    private Furnace four;
 
     public List<Wagon> wagons;
     private List<float> distWagon;
@@ -27,11 +29,11 @@ public class Train : MonoBehaviour
 
     public float acceleratorMultiplicator = 0.1f;
     public float brakeMultiplicator = 0.3f;
-    //private Wagon locomotive;
     private float avancementByMeter = 0.0f;
 
     public Compteur compteurVitesse = null;
-
+    public Compteur compteurTemperature = null;
+    public Compteur compteurPression = null;
     public Train()
     {
         wagons = new List<Wagon>();
@@ -44,13 +46,13 @@ public class Train : MonoBehaviour
         UpdateData();
     }
 
-    private void FixedUpdate()
+    /*private void FixedUpdate()
     {
-        foreach(Wagon wagon in wagons)
+        foreach (Wagon wagon in wagons)
         {
             wagon.SetToInitial();
         }
-    }
+    }*/
 
 
     private void Update()
@@ -60,7 +62,7 @@ public class Train : MonoBehaviour
             this.throttle = speedLever.valeur;
         }
         float multiplicator = this.throttle >= 0 ? acceleratorMultiplicator : brakeMultiplicator;
-        float tmpSpeed = speed + (throttle * multiplicator);
+        float tmpSpeed = speed + (throttle * multiplicator * (four.pression / 10.0f));
         if (tmpSpeed < maxSpeed)
         {
             speed = tmpSpeed;
@@ -81,19 +83,41 @@ public class Train : MonoBehaviour
         }
 
         //locomotive.ComputePositionRotation(this.chemin, this.avancement, this.avancementByMeter);
-        for (int i = 0, max = wagons.Count; i < max; i++)
+        if (wagons.Count > 0)
         {
-            wagons[i].ComputePositionRotation(this.chemin, this.avancement - (distWagon[i] * this.avancementByMeter), this.avancementByMeter);
+
+            for (int i = 0, max = wagons.Count; i < max; i++)
+            {
+                Wagon.Result r = wagons[i].ComputePositionRotation(this.chemin, this.avancement - (distWagon[i] * this.avancementByMeter), this.avancementByMeter);
+                if (i > 0)
+                {
+                    wagons[i].transform.SetPositionAndRotation(r.position, r.rotation);
+                }
+                else
+                {
+                    terrain.transform.Translate(-r.position);
+                    wagons[i].transform.rotation = r.rotation;
+                }
+            }
         }
 
-        if(compteurVitesse != null)
+        if (compteurVitesse != null)
         {
-            compteurVitesse.SetValue(speed*3.6f);
+            compteurVitesse.SetValue(speed * 3.6f);
+        }
+        if (this.compteurPression != null)
+        {
+            this.compteurPression.SetValue(four.pression);
+        }
+        if (this.compteurTemperature != null)
+        {
+            this.compteurTemperature.SetValue(four.temperature);
         }
     }
 
-    public void SetData(SplineContainer chemin, float avancement = 0.0f, bool direction = true, float maxSpeed = 5.0f, float speed = 0.0f, float throttle = 0.0f)
+    public void SetData(GameObject terrain, SplineContainer chemin, float avancement = 0.0f, bool direction = true, float maxSpeed = 5.0f, float speed = 0.0f, float throttle = 0.0f)
     {
+        this.terrain = terrain;
         this.chemin = chemin;
         this.avancement = avancement;
         this.direction = direction;
@@ -118,15 +142,32 @@ public class Train : MonoBehaviour
             distCumul += tmpDist;
         }
 
-        if(wagons.Count > 0) {
+        if (wagons.Count > 0)
+        {
             Transform wagonInterior = wagons[0].transform.Find("WagonInterior");
 
             this.speedLever = wagonInterior.Find("SpeedLever").GetComponentInChildren<LeverValue>();
             this.compteurVitesse = wagonInterior.Find("Compteurs").Find("Vitesse").GetComponent<Compteur>();
-            if(this.compteurVitesse!= null)
+
+            this.compteurPression = wagonInterior.Find("Compteurs").Find("Pression").GetComponent<Compteur>();
+            this.compteurTemperature = wagonInterior.Find("Compteurs").Find("Temp").GetComponent<Compteur>();
+            if (this.compteurVitesse != null)
             {
                 this.compteurVitesse.SetLimit(this.maxSpeed * 3.6f);
             }
+
+
+            if (this.compteurPression != null)
+            {
+                this.compteurPression.SetLimit(16.0f);
+            }
+
+            if (this.compteurTemperature != null)
+            {
+                this.compteurTemperature.SetLimit(100);
+            }
+
+            this.four = wagons[0].transform.Find("Four").GetComponent<Furnace>();
         }
     }
 
@@ -136,7 +177,7 @@ public class Train : MonoBehaviour
         int tmpval = ShopData.GetInstance().upgrade.maxSpeedSelected - 1;
         int max = MAX_SPEED_VALUES.Length;
         this.maxSpeed = MAX_SPEED_VALUES[tmpval < 0 ? 0 : tmpval >= max ? max - 1 : tmpval];
-        if(compteurVitesse != null)
+        if (compteurVitesse != null)
         {
             compteurVitesse.SetLimit(this.maxSpeed * 3.6f);
         }
@@ -144,14 +185,14 @@ public class Train : MonoBehaviour
         tmpval = ShopData.GetInstance().upgrade.accelerationSelected - 1;
         max = ACCELERATION_VALUES.Length;
         this.acceleratorMultiplicator = ACCELERATION_VALUES[tmpval < 0 ? 0 : tmpval >= max ? max - 1 : tmpval];
-        
+
         tmpval = ShopData.GetInstance().upgrade.brakeSelected - 1;
         max = BRAKE_VALUES.Length;
         this.brakeMultiplicator = BRAKE_VALUES[tmpval < 0 ? 0 : tmpval >= max ? max - 1 : tmpval];
     }
 
 
-   
+
 
 
 }

@@ -9,6 +9,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2076350200015993056}
+  - component: {fileID: 5912749064670144118}
+  - component: {fileID: 1928643478712672696}
   m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
@@ -30,8 +32,38 @@ Transform:
   m_Children:
   - {fileID: 8178866826728899203}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5912749064670144118
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274396155141566964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f3aa025a5eac5747b759057cbb0f83c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  content: {fileID: 2452928204856420704}
+  maxHeight: 1
+  minHeight: 0.05
+  maxQuantity: 1000
+  quantity: 1000
+--- !u!65 &1928643478712672696
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 274396155141566964}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.2, y: 0.25, z: 2.2}
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &8506056658996847976
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -100,9 +132,20 @@ PrefabInstance:
       propertyPath: m_Name
       value: OpenCrate
       objectReference: {fileID: 0}
+    - target: {fileID: 1025531832181272657, guid: 253344c7f4512e245aa0007630b497fb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_AddedGameObjects: []
   m_SourcePrefab: {fileID: 100100000, guid: 253344c7f4512e245aa0007630b497fb, type: 3}
+--- !u!1 &2452928204856420704 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -3170225990528234488, guid: 253344c7f4512e245aa0007630b497fb,
+    type: 3}
+  m_PrefabInstance: {fileID: 8506056658996847976}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8178866826728899203 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 253344c7f4512e245aa0007630b497fb,

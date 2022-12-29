@@ -12,6 +12,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Coal
+    second: {fileID: 2100000, guid: 2646793aaa15c094895bcc4a8831f344, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Cylindre
     second: {fileID: 2100000, guid: ac4068f52862b8848a129ff991f72ced, type: 2}
   - first:

@@ -47,15 +47,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lever: {fileID: 8868777464042128587}
-  test: {fileID: 0}
   axis: 0
   invertAxis: 0
   minDist: -0.3
   maxDist: 0.3
   minValue: -1
   maxValue: 1
-  backToMinValue: 0
+  retourAuto: 0
   invertValue: 0
+  offset: 0
   valeur: 0
 --- !u!114 &7124095557593836699
 MonoBehaviour:
@@ -76,7 +76,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_InteractionLayers:
-    m_Bits: 1
+    m_Bits: 4294967295
   m_SelectMode: 0
   m_CustomReticle: {fileID: 0}
   m_FirstHoverEntered:

@@ -6,23 +6,28 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class GrabObject : MonoBehaviour
 {
     private Transform attachment;
-
+    
     private void FixedUpdate()
     {
         if (attachment != null)
         {
             transform.position = attachment.position;
-
+            transform.rotation = attachment.rotation;
         }
     }
 
-    public void Select(SelectEnterEventArgs args)
+    public void SelectEnter(SelectEnterEventArgs args)
     {
-        attachment= args.interactorObject.transform.Find("Anchor");
+        Debug.Log("SELECT");
+        attachment = args.interactorObject.transform;
+        transform.GetComponent<Rigidbody>().isKinematic = true;
     }
 
-    public void Unselect(SelectExitEventArgs args)
+    public void SelectExit(SelectExitEventArgs args)
     {
+        Debug.Log("UN SELECT");
+
         attachment = null;
+        transform.GetComponent<Rigidbody>().isKinematic = false;
     }
 }
