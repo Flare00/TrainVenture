@@ -8,6 +8,7 @@ public class Klaxon : MonoBehaviour
     public AudioSource audioS;
     public float enclenchementValue = 0.9f;
     public LeverValue lever;
+    public Furnace four;
 
     void Start()
     {
@@ -22,6 +23,13 @@ public class Klaxon : MonoBehaviour
                 if(!audioS.isPlaying)
                 {
                     audioS.Play();
+                }
+                if(four != null)
+                {
+                    if(four.pression > 1.0f)
+                    {
+                        four.pression -= Time.deltaTime * 0.4f;
+                    }
                 }
             }
         }

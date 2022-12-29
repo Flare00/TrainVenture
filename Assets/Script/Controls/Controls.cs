@@ -11,16 +11,20 @@ public class Controls : MonoBehaviour
 {
     public static bool FORCE_RAYCAST = false;
     public GameObject raycastInteractor;
-    public GameObject anchor;
 
     public InputActionProperty triggerAction;
     public InputActionProperty gripAction;
 
-    private bool raycast_status = false;
+    protected bool local_force_raycast = false;
+    protected bool raycast_status = false;
+    protected XRRayInteractor rayInteractor;
+
+    protected LayerMask defaultRayMask;
 
     private void Start()
     {
-
+        rayInteractor = raycastInteractor.GetComponent<XRRayInteractor>();
+        defaultRayMask = rayInteractor.raycastMask;
         raycastInteractor.SetActive(false);
     }
     private void Update()
@@ -35,7 +39,7 @@ public class Controls : MonoBehaviour
 
         if (!FORCE_RAYCAST)
         {
-            if (trigger > 0.1f)
+            if (trigger > 0.1f | local_force_raycast)
             {
                 if (!raycast_status)
                 {
@@ -60,6 +64,11 @@ public class Controls : MonoBehaviour
                 raycast_status = true;
             }
         }
+    }
+
+    public void ResetRaycastMask()
+    {
+        rayInteractor.raycastMask = defaultRayMask;
     }
 
     /*private void OnEnable()
