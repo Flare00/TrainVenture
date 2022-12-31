@@ -162,7 +162,7 @@ MonoBehaviour:
   minSize: 0.8
   maxSize: 2
   maxTrees: 20000
-  divRange: 2.06
+  divRange: 3.65
 --- !u!154 &39291976
 TerrainCollider:
   m_ObjectHideFlags: 0
