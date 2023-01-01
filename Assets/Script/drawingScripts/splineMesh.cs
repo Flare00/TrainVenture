@@ -20,13 +20,13 @@ public class splineMesh : MonoBehaviour
     int formerSplineLength=0;
 
     Vector3 up = new Vector3(0.0f,1.0f,0.0f);
+    public Vector3 lastNormal=new Vector3(0,0,0);//buffer to inform other classes
 
     public SplineContainer spline;
 
     // Start is called before the first frame update
     void Start()
     {
-        print("start");
         newVertices = new Vector3[RESOLUTION_MAX*2];
         newUVs = new Vector2[RESOLUTION_MAX*2];
         newTriangles = new int[(RESOLUTION_MAX-1)*6];
@@ -82,8 +82,7 @@ public class splineMesh : MonoBehaviour
             newVertices[i*2+1]=nextLeft;
             newUVs[i*2]=new Vector2(splineProgress*spline.Spline.Count/5,1);
             newUVs[i*2+1]=new Vector2(splineProgress*spline.Spline.Count/5,0);
-            print("uvs at positions"+(i*2).ToString()+", "+(i*2+1).ToString()+" : "+newUVs[i*2].ToString()+newUVs[i*2+1].ToString());
-
+            
             //add the two triangles to newTriangles          
             newTriangles[(i-1)*6+2]=i*2;//nextRight
             newTriangles[(i-1)*6+0]=(i-1)*2+1;//currentLeft 
@@ -98,6 +97,8 @@ public class splineMesh : MonoBehaviour
             currentRight = nextRight;
             currentLeft = nextLeft;
             nextPoint = nextNextPoint;
+            //set state (nothing to do with mesh)
+            if(i+1==RESOLUTION){lastNormal=normal;}
         }
         GetComponent<MeshFilter>().mesh.Clear();
         //add the new data to the mesh
@@ -106,5 +107,6 @@ public class splineMesh : MonoBehaviour
         GetComponent<MeshFilter>().mesh.uv = newUVs;
         GetComponent<MeshFilter>().mesh.Optimize ();
         GetComponent<MeshFilter>().mesh.RecalculateNormals ();
+
     }
 }

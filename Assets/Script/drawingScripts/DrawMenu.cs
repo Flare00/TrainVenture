@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.Splines;
 using TMPro;
 
 public class DrawMenu : MonoBehaviour
@@ -13,15 +14,13 @@ public class DrawMenu : MonoBehaviour
     //these don't have to do with the UI : 
     [SerializeField]
     public List<string> GareNames;
-    private GareDrawing lastGare;
-    [SerializeField]
-    public Material GareTexture;
+    private GameObject lastGare;
     public DrawingBoard board;
     private List<int> IndicesLeft;//to avoid giving the same name twice.
-    public bool WARNING_ENABLED;
-    public float WARNING_TIME;
+    private bool WARNING_ENABLED;
+    private float WARNING_TIME;
     private bool POPUP_TOGGLED;
-    public List<string> temp_names;//names within one popup menu instance.
+    private List<string> temp_names;//names within one popup menu instance.
 
     //these do :
     public TextMeshPro info;
@@ -52,6 +51,7 @@ public class DrawMenu : MonoBehaviour
         if(POPUP_TOGGLED){
             TogglePopup();//disable popup (cancel creation)
             GameObject.Find("Main/makeGare").GetComponent<TextChangeScript>().SetText("Créer une gare");
+            temp_names.Clear();
         }else{
             if(StartGareCreation()){//if the pencil was on the paper
                 GameObject.Find("Main/makeGare").GetComponent<TextChangeScript>().SetText("Annuler");
@@ -80,9 +80,6 @@ public class DrawMenu : MonoBehaviour
         }
     }
 
-    void MakeFirstGare(){
-        Debug.Log("called MakeFirstGare");
-    }
 
     void TogglePopup(){
         POPUP_TOGGLED = !POPUP_TOGGLED;
@@ -94,13 +91,31 @@ public class DrawMenu : MonoBehaviour
     }
 
     public void CreateGare(int nameChoice){
-        if(lastGare is null){MakeFirstGare();}
-        Vector3 garePos = board.PencilPosition();
+        if(lastGare is null && board.sContainer.Spline.Count>1){//only if the rail has moved
+            CreateFirstGare();}
         GameObject gare = (GameObject)(Instantiate(Resources.Load("Prefabs/text/GareText")));
-        gare.GetComponent<GareDrawing>().Init(temp_names[nameChoice]);
-        gare.transform.SetParent(GameObject.Find("/Plane").transform);
-        gare.GetComponent<RectTransform>().localPosition=garePos;
-        //gare.GetComponent<RectTransform>().localRotation=new Quaternion(0,1,0,90);
+        Vector3 garePos = board.LocalPencilPosition();
+
+        splineMesh spmesh = board.sContainer.GetComponent<splineMesh>();
+        gare.GetComponent<GareDrawing>().init(GameObject.Find("/Plane").transform, garePos,temp_names[nameChoice],
+                                                        spmesh.lastNormal);
+        //create an optimizer class later
+        if(lastGare is not null){
+            OptimizeSpline(lastGare.GetComponent<GareDrawing>().strText,gare.GetComponent<GareDrawing>().strText);}
+        lastGare = gare;
+        CreateButtonRouter();//close the popup
+    }
+    void CreateFirstGare(){//repeating lines of code but too lazy to fix
+        GameObject gare = (GameObject)(Instantiate(Resources.Load("Prefabs/text/GareText")));
+        Vector3 garePos = new Vector3(board.sContainer.Spline.EvaluatePosition(0)[0],0.0f,
+                                      -board.sContainer.Spline.EvaluatePosition(0)[2]);
+        gare.GetComponent<GareDrawing>().init(GameObject.Find("/Plane").transform,garePos,
+                                                "Oubliettes",new Vector3(0,0,0));
+        lastGare = gare;
+    }
+
+    private void OptimizeSpline(string start, string end){
+        Debug.Log("optimizing path between "+start+" and "+end+" (actually not implemented yet)");
     }
 
     public void save(){

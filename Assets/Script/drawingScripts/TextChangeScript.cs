@@ -17,6 +17,5 @@ public class TextChangeScript : MonoBehaviour
     }
     public void SetText(string txt){
         text.text = txt;
-        print("text : "+text.text);
     }
 }

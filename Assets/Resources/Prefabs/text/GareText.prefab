@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7574812900197266106}
   - component: {fileID: 1159888306159028200}
   - component: {fileID: 6002898367523088852}
-  - component: {fileID: 6443914153944517918}
+  - component: {fileID: 5304049440811602308}
   m_Layer: 0
   m_Name: GareText
   m_TagString: Untagged
@@ -129,11 +129,11 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 8
+  m_fontSize: 8.25
   m_fontSizeBase: 8
   m_fontWeight: 400
-  m_enableAutoSizing: 0
-  m_fontSizeMin: 18
+  m_enableAutoSizing: 1
+  m_fontSizeMin: 2
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 1
@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   text: {fileID: 1159888306159028200}
---- !u!114 &6443914153944517918
+--- !u!114 &5304049440811602308
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -196,7 +196,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6532788323320142832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc6ade1e02e74344cb23074737ba85ac, type: 3}
+  m_Script: {fileID: 11500000, guid: b1b344ac99715f440a402812db942a7c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   material: {fileID: 0}

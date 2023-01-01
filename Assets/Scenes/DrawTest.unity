@@ -4150,6 +4150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pencil: {fileID: 1940074031}
+  SAMPLE_THRESHOLD: 0.25
   sContainer: {fileID: 1803746693}
 --- !u!1 &1743973719
 GameObject:
@@ -4432,7 +4433,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1803746692}
   m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
-  m_LocalPosition: {x: 0, y: 0.1, z: 0}
+  m_LocalPosition: {x: 0, y: 0.01, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -4454,6 +4455,7 @@ MonoBehaviour:
   mat: {fileID: 2100000, guid: 7d70ffa93f69ac24499a4e1e4a046f2f, type: 2}
   RESOLUTION_MAX: 500
   WIDTH: 0.07
+  lastNormal: {x: 0, y: 0, z: 0}
   spline: {fileID: 1803746693}
 --- !u!23 &1803746696
 MeshRenderer:
@@ -4859,7 +4861,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1940074031}
   m_LocalRotation: {x: -0, y: -0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: -0.77, y: -0, z: -4.13}
+  m_LocalPosition: {x: 4.296, y: -0, z: 0.35}
   m_LocalScale: {x: 0.1, y: 0.1, z: 0.5}
   m_ConstrainProportionsScale: 1
   m_Children:
@@ -5091,33 +5093,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 2056406911}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fd8801ce6b6a5e94a90879673cb1ed9f, type: 3}
+  m_Script: {fileID: 11500000, guid: 22c08d000ca0966cea979dea26f9d3a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1580882672}
   GareNames:
-  - Aigaliers
-  - Aigremont
-  - "All\xE8gre-les-Fumades"
-  - Abbenans
-  - Allenjoie
-  - Aibre
-  - Sainte-Suzanne
-  - "Tr\xE9villiers"
-  - Vaire
-  - Uzelle
-  - Gluiras
-  - "F\xE9lines"
-  - Jaujac
-  - Mayres
-  - Le Pouzin
-  - Rochepaule
-  - "Saint-D\xE9sirat"
-  GareTexture: {fileID: 2100000, guid: 65f5ede1592832f4b9aaa8e3f12e6a3a, type: 2}
+  - Abainville
+  - Bachivillers
+  - "Caban\xE8s"
+  - Daigny
+  - Ecalles-Alix
+  - "Ferrassi\xE8res"
+  - Giremoutiers
+  - "H\xE9court"
+  - Ivors
+  - Jugazan
+  - Koeur-la-Grande
+  - "Le Grand-Luc\xE9"
+  - Magnanville
+  - Noircourt
+  - Onzain
+  - Pressac
+  - Queaux
+  - Replonges
+  - "Saint-B\xE9ron"
+  - Sarrazac
   board: {fileID: 1686256138}
-  WARNING_ENABLED: 0
-  WARNING_TIME: 0
-  temp_names: []
   info: {fileID: 980356108}
   warning: {fileID: 252505041}
   PopupBackground: {fileID: 655792247}

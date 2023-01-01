@@ -8,7 +8,7 @@ using Unity.Mathematics;
 public class DrawingBoard : MonoBehaviour
 {
     public GameObject pencil;
-    static double SAMPLE_THRESHOLD=0.25;
+    public double SAMPLE_THRESHOLD=0.25;
     private double cumulDist;
     private Vector2 lastPosition;
     private Spline spline;
@@ -53,14 +53,14 @@ public class DrawingBoard : MonoBehaviour
         lastPosition[1]=pencilY;
     }
 
-    public bool pencilIsDrawing(){
-        Vector3 worldTransform = PencilPosition();
-        return System.Math.Abs(worldTransform[0])<0.2;
-    }
-    public Vector3 PencilPosition(){
+    private Vector3 PencilPosition(){//for inside use
         return (pencil.transform.position-new Vector3(0.0f,1.0f,0.0f))*5.0f;//have to multiply by 5 because plane has scale 0.2
     }
-    public Vector3 LocalPencilPosition(){
-        return pencil.transform.localPosition;
+    public bool pencilIsDrawing(){
+        Vector3 worldTransform = PencilPosition();
+        return System.Math.Abs(worldTransform[0])<0.2 && System.Math.Abs(worldTransform[1])<5 && System.Math.Abs(worldTransform[2])<5;
+    }
+    public Vector3 LocalPencilPosition(){//for outside use
+        return GameObject.Find("Manche").transform.localPosition;
     }
 }
