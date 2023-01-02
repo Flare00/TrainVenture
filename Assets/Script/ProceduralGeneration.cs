@@ -12,9 +12,11 @@ public class ProceduralGeneration : MonoBehaviour
     public int resolution;
     public int tileSize;
 	public SplineContainer spline;
-
-    [SerializeField]Texture2D grassTexture;
     [SerializeField]float minSize,maxSize;
+    private int offsetX;
+    private int offsetY;
+
+    int size = 50;
 
     [Range(0,15)]
     public float divRange;
@@ -27,6 +29,7 @@ public class ProceduralGeneration : MonoBehaviour
         terrain.drawTreesAndFoliage = true;
         terrain.treeDistance = 3000;
         TData = terrain.terrainData;
+
         TData.RefreshPrototypes();
         initTerrain();
     }
@@ -36,6 +39,9 @@ public class ProceduralGeneration : MonoBehaviour
         UnityEngine.Random.InitState((int)DateTime.Now.Ticks);
         terrain.terrainData.heightmapResolution = resolution;
         terrain.terrainData.baseMapResolution = resolution;
+        terrain.terrainData.alphamapResolution = resolution;
+        offsetX = UnityEngine.Random.Range(-10000,10000);
+        offsetY = UnityEngine.Random.Range(-10000,10000);
 
         GenerateHeightMap();
         GenerateTextures();
@@ -51,14 +57,15 @@ public class ProceduralGeneration : MonoBehaviour
         {
             for(int j = 0; j < resolution; j++)
             {
-                heightmap[i, j] = Mathf.PerlinNoise(((float)i / (float)TData .heightmapResolution) * tileSize, ((float)j / (float)TData .heightmapResolution) * tileSize) / divRange;
+                heightmap[i, j] = Mathf.PerlinNoise(((float)i / (float)TData .heightmapResolution) * tileSize + offsetX, ((float)j / (float)TData .heightmapResolution) * tileSize + offsetY) / divRange;
             }
         }
+
         TData.SetHeights(0, 0, heightmap);
 		ApplyHeightmapToSpline();
     }
 
-        void GenerateTextures()
+    void GenerateTextures()
     {
         float[, ,] splatmapData = new float[TData.alphamapWidth, TData.alphamapHeight, TData.alphamapLayers];
 
@@ -86,7 +93,7 @@ public class ProceduralGeneration : MonoBehaviour
                 // Texture[1] stronger on flatter terrain
                 // Note "steepness" is unbounded, so we "normalise" it by dividing by the extent of heightmap height and scale factor
                 // Subtract result from 1.0 to give greater weighting to flat surfaces
-                splatWeights[1] = 1.0f - Mathf.Clamp01(steepness*steepness/(TData.heightmapResolution/5.0f));
+                splatWeights[1] = 1.0f - Mathf.Clamp01(steepness*steepness/(TData.heightmapResolution/4.0f));
 
                 // Texture[2] has constant influence
                 splatWeights[2] = 0.6f;
@@ -163,7 +170,6 @@ public class ProceduralGeneration : MonoBehaviour
                 }
             }
         }
-
         Debug.Log("Number of trees: "+TData.treeInstanceCount);
     }
 
@@ -196,6 +202,7 @@ public class ProceduralGeneration : MonoBehaviour
 			BezierKnot b = spline[i];
             b.Position[0] = (b.Position[0] - minX) / (maxX - minX);
             b.Position[2] = (b.Position[2] - minZ) / (maxZ - minZ);
+			spline[i] = b;
         }
         
         return spline;
@@ -204,14 +211,18 @@ public class ProceduralGeneration : MonoBehaviour
 	void ApplyHeightmapToSpline(){
 		Spline spline = SaveLoad.GetInstance().LoadSpline("spline.data");
 
+        Vector3 position = this.spline.transform.position; // Spline container position
+
         spline = normalizeSplinePositions(spline);
 		for(int i = 0; i < spline.Count; i++){
 			BezierKnot b = spline[i];
 			
-			b.Position[0] = b.Position[0] * (TData.bounds.max.x / 2);
-			b.Position[2] = b.Position[2] * (TData.bounds.max.z / 2);
-            float height = TData.GetHeight((int)b.Position[0],(int) b.Position[2]);
+			b.Position[0] = b.Position[0] * TData.heightmapResolution;
+			b.Position[2] = b.Position[2] * TData.heightmapResolution;
+            float height = terrain.SampleHeight(new Vector3(b.Position[0],0,b.Position[2]));
 			b.Position[1] = height;
+            
+            Debug.Log(height);
 			spline[i] = b;
 		}
 		

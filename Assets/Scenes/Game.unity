@@ -171,7 +171,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122414907}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 486, y: 0, z: 458}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -225,10 +225,9 @@ MonoBehaviour:
   resolution: 2049
   tileSize: 10
   spline: {fileID: 122414908}
-  grassTexture: {fileID: 2800000, guid: 3c861f328813e951a904dea7c12e3ea3, type: 3}
   minSize: 0.8
   maxSize: 2
-  divRange: 3.22
+  divRange: 4.45
 --- !u!154 &500875220
 TerrainCollider:
   m_ObjectHideFlags: 0
