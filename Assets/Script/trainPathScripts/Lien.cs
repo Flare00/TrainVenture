@@ -2,24 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Lien : MonoBehaviour, ITrainPath
+[System.Serializable]
+public class Lien : ITrainPath
 {
-    ITrainPath linkedPath;
-    Vector3Int linkPoint;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField]
+    public ITrainPath linkedPath;
 
-    void Init(ITrainPath path, Vector3Int pos){
-        linkPoint = pos;
+    [SerializeField]
+    public float linkPoint;
+
+
+    public Lien(ITrainPath path, float point){
+        linkPoint = point;
         linkedPath = path;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

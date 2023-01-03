@@ -1,5 +1,6 @@
 
 using System.IO;
+using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.Splines;
@@ -21,6 +22,13 @@ public class SaveLoad
     SaveLoad(string save_folder = "Save/")
     {
         this.br = new BinaryFormatter();
+
+        SurrogateSelector surrogateSelector = new SurrogateSelector();
+        Vector3SerializationSurrogate vector3SS = new Vector3SerializationSurrogate();
+
+        surrogateSelector.AddSurrogate(typeof(Vector3), new StreamingContext(StreamingContextStates.All), vector3SS);
+        br.SurrogateSelector = surrogateSelector;
+
         this.save_folder = save_folder;
         if (!Directory.Exists(save_folder))
         {
@@ -32,6 +40,8 @@ public class SaveLoad
     {
         FileStream fs = new(this.save_folder + name, FileMode.Create);
         this.br.Serialize(fs, data);
+
+
         fs.Close();
     }
 

@@ -2,18 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Gare : MonoBehaviour, ITrainPath
+[System.Serializable]
+public class Gare : ITrainPath, IDataSave
 {
-    string cityName;
-    Vector3Int position;
-    List<Ligne> liaisons;
-    // Start is called before the first frame update
-    void Start()
-    {
-    }
+    [SerializeField]
+    public string cityName;
 
-    void Init(string n,Vector3Int p,List<Ligne> l){
-        name = n;
+    [SerializeField]
+    public Vector3 position;
+
+    [SerializeField]
+    public List<Ligne> liaisons;
+
+    public Gare(string n,Vector3 p,List<Ligne> l){
+        cityName = n;
         position = p;
         liaisons = l;
     }
@@ -23,9 +25,4 @@ public class Gare : MonoBehaviour, ITrainPath
         return null;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

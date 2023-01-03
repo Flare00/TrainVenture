@@ -2,25 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ligne : MonoBehaviour
+using UnityEngine.Splines;
+
+[System.Serializable]
+public class Ligne
 {
-    List<Vector3Int> points;
-    Lien L1,L2;
-    // Start is called before the first frame update
-    void Start()
+
+    [SerializeField]
+    public Spline spline;
+
+    [SerializeField]
+    public Lien l1;
+
+    [SerializeField]
+    public Lien l2;
+
+    public Ligne(Lien l1, Lien l2, Spline spline)
     {
-        
+        this.spline = spline;
+        this.l1 = l1;
+        this.l2 = l2;
     }
 
-    void Init(Lien l1, Lien l2, List<Vector3Int> pts){
-        points=pts;
-        L1=l1;
-        L2=l2;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
