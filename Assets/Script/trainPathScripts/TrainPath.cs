@@ -39,11 +39,9 @@ public class TrainPath : MonoBehaviour
     private List<LigneSplineContainer> lignesSplineContainers = new();
 
     // Start is called before the first frame update
-    void Start()
+    public void Initialisation(float size, int nbSubdivision)
     {
         dataTrainPath = (DataTrainPath)SaveLoad.GetInstance().Load("TrainPath/" + trainPathName + ".data");
-
-        float size = terrain.terrainData.heightmapResolution;
 
         foreach (Gare g in dataTrainPath.gares)
         {
@@ -67,13 +65,27 @@ public class TrainPath : MonoBehaviour
                 BezierKnot b = l.spline[i];
                 b.Position[0] = b.Position[0] * size;
                 b.Position[2] = b.Position[2] * size;
-                b.Position[1] = 10.0f;
                 l.spline[i] = b;
             }
             sc.Spline = l.spline;
             lignesSplineContainers.Add(new LigneSplineContainer(l, sc));
+
+            l.spline = SplineSubdivide.Subdivide(sc, nbSubdivision);
+
+
+            for (int i = 0; i < l.spline.Count; i++)
+            {
+                BezierKnot b = l.spline[i];
+                float height = terrain.SampleHeight(new Vector3(b.Position[0], 0, b.Position[2]));
+                b.Position[1] = height;
+                l.spline[i] = b;
+            }
+
+            sc.Spline = l.spline;
             increment++;
         }
+
+
     }
 
     public PossibleLigne IsChangementPossible(Ligne l, float avancement, float avancementByMeter, bool direction)

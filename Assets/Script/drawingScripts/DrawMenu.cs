@@ -148,6 +148,7 @@ public class DrawMenu : MonoBehaviour
         for(int i=0;i<gares.Count;i++){
             Debug.Log("gare"+i.ToString()+" has "+gares[i].liaisons.Count.ToString());
         }
+        SaveLoad.GetInstance().Save(new DataTrainPath(gares, lignes), "TrainPath/one.data");
     }
 
     void CheckTakenIndices(){

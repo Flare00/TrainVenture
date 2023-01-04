@@ -3,6 +3,7 @@ using System.Linq;
 using UnityEngine;
 using Unity.Mathematics;
 using UnityEngine.Splines;
+using Unity.VisualScripting;
 
 public class ProceduralGeneration : MonoBehaviour
 {
@@ -213,35 +214,8 @@ public class ProceduralGeneration : MonoBehaviour
         }
 
         void ApplyHeightmapToSpline(){
-            Spline spline = SaveLoad.GetInstance().LoadSpline("spline.data");
-
-            Vector3 position = this.spline.transform.position; // Spline container position
-
-            spline = normalizeSplinePositions(spline);
-
-
-            for (int i = 0; i < spline.Count; i++){
-                BezierKnot b = spline[i];
-
-                b.Position[0] = b.Position[0] * resolution;
-                b.Position[2] = b.Position[2] * resolution;
-                float height = terrain.SampleHeight(new Vector3(b.Position[0],0,b.Position[2]));
-                //b.Position[1] = height;
-                spline[i] = b;
-            }
-            this.spline.Spline = spline;
-            spline = SplineSubdivide.Subdivide(this.spline, 100); // 100 correspond au nombre de points
-
-            for (int i = 0; i < spline.Count; i++)
-            {
-                BezierKnot b = spline[i];
-                float height = terrain.SampleHeight(new Vector3(b.Position[0], 0, b.Position[2]));
-                b.Position[1] = height;
-                spline[i] = b;
-            }
-
-        this.spline.Spline = spline;
-            AdjustAlongSpline(spline);
+            TrainPath trainPath = this.GetComponent<TrainPath>();
+            trainPath.Initialisation(resolution, 100);
         }
 
         float normalizeHeight(float initialHeight)
