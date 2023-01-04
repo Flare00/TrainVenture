@@ -13,6 +13,7 @@ public class splineMesh : MonoBehaviour
     private int RESOLUTION;
     [SerializeField]
     public float WIDTH=0.05f;//width of path drawn
+    public bool CLEAR_NEWVERTICES=false;
 
     Vector3[] newVertices;
     Vector2[] newUVs;
@@ -108,5 +109,21 @@ public class splineMesh : MonoBehaviour
         GetComponent<MeshFilter>().mesh.Optimize ();
         GetComponent<MeshFilter>().mesh.RecalculateNormals ();
 
+    }
+
+    public void ClearSpline(){
+        spline.Spline.Clear();
+        for(int i=0;i<RESOLUTION_MAX;i++){
+            newVertices = new Vector3[RESOLUTION_MAX*2];
+            newUVs = new Vector2[RESOLUTION_MAX*2];
+            newTriangles = new int[(RESOLUTION_MAX-1)*6];
+        }
+    }
+
+    public void init(Transform parent, splineMesh previousSpline){//called when creating a new SplineMesh.
+        transform.SetParent(parent);
+        transform.localPosition = previousSpline.transform.localPosition;
+        transform.localRotation = previousSpline.transform.localRotation;
+        transform.localScale = previousSpline.transform.localScale;
     }
 }

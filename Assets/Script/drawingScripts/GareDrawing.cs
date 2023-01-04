@@ -28,7 +28,7 @@ public class GareDrawing : MonoBehaviour
 
         addGareMesh(parent);
 
-        PlaceNextTo(railNormal);
+        //PlaceNextTo(railNormal);
     }
     private void addGareMesh(Transform parent){
         gareMesh = (GameObject)(Instantiate(Resources.Load("Prefabs/text/GareMesh")));
@@ -40,7 +40,7 @@ public class GareDrawing : MonoBehaviour
         gareMesh.transform.localRotation = transform.localRotation;
     }
 
-    private void PlaceNextTo(Vector3 railNormal){
+    private void PlaceNextTo(Vector3 railNormal){//no longer in use as not the splines are disconnected.
         gareMesh.transform.localPosition += railNormal*5.0f;
         transform.localPosition+=railNormal*5.0f;
     }
