@@ -23,6 +23,10 @@ public class DrawMenu : MonoBehaviour
     private List<string> temp_names;//names within one popup menu instance.
     private Gare oldSaveGare;
 
+    //pour la sauvegarde :
+    public List<Gare> gares = new List<Gare>();
+    public List<Ligne> lignes = new List<Ligne>();
+
 
 
     //these do :
@@ -96,7 +100,6 @@ public class DrawMenu : MonoBehaviour
     public void CreateGare(int nameChoice){
         if(lastGare is null && board.sContainer.Spline.Count>1){//only if the rail has moved
             CreateFirstGare();}
-            CreateNewSplineMesh();
         GameObject gare = (GameObject)(Instantiate(Resources.Load("Prefabs/text/GareText")));
         Vector3 garePos = board.LocalPencilPosition();
 
@@ -107,16 +110,17 @@ public class DrawMenu : MonoBehaviour
         if(lastGare is not null){
             OptimizeSpline(lastGare.GetComponent<GareDrawing>().strText,gare.GetComponent<GareDrawing>().strText);
             createSaveableObjects(gare);//create a line and all
-        }else{
+            CreateNewSplineMesh();
+        }else{//just set this gare. This only happens if the user creates one before drawing.
             oldSaveGare = new Gare(gare.GetComponent<GareDrawing>().strText,
-            gare.transform.localPosition,
-            new List<Ligne>());//just set this gare. This only happens if the user creates one before drawing.
+            gare.transform.localPosition, new List<Ligne>());
+            gares.Add(oldSaveGare);
         }
         lastGare = gare;
         CreateButtonRouter();//close the popup
-        ClearSpline();
+        spmesh.ClearSpline();//start the new line
     }
-    void CreateFirstGare(){//repeating lines of code but too lazy to fix
+    void CreateFirstGare(){
         GameObject gare = (GameObject)(Instantiate(Resources.Load("Prefabs/text/GareText")));
         Vector3 garePos = new Vector3(board.sContainer.Spline.EvaluatePosition(0)[0],0.0f,
                                       -board.sContainer.Spline.EvaluatePosition(0)[2]);
@@ -127,6 +131,11 @@ public class DrawMenu : MonoBehaviour
             gare.transform.localPosition,
             new List<Ligne>());
         lastGare = gare;
+        //for save
+        oldSaveGare = new Gare(gare.GetComponent<GareDrawing>().strText,
+            gare.transform.localPosition,
+            new List<Ligne>());
+        gares.Add(oldSaveGare);
     }
 
     private void OptimizeSpline(string start, string end){
@@ -134,7 +143,11 @@ public class DrawMenu : MonoBehaviour
     }
 
     public void save(){
-        Debug.Log("save not yet implemented ! ");
+        Debug.Log("number of gares : "+gares.Count.ToString());
+        Debug.Log("number of lignes : "+lignes.Count.ToString());
+        for(int i=0;i<gares.Count;i++){
+            Debug.Log("gare"+i.ToString()+" has "+gares[i].liaisons.Count.ToString());
+        }
     }
 
     void CheckTakenIndices(){
@@ -146,7 +159,13 @@ public class DrawMenu : MonoBehaviour
 
     private void CreateNewSplineMesh(){
         GameObject spmesh = (GameObject)(Instantiate(Resources.Load("Prefabs/SplineMesh/Spline")));
-        spmesh.GetComponent<splineMesh>().spline.Spline = board.sContainer.Spline;
+        spmesh.GetComponent<splineMesh>().init(
+            GameObject.Find("/Plane").transform,board.sContainer.GetComponent<splineMesh>());
+        Spline newsp = new Spline();//into which to copy the former line's spline for display
+        newsp.Copy(board.sContainer.GetComponent<splineMesh>().spline.Spline);
+        spmesh.GetComponent<splineMesh>().spline.Spline = newsp;
+        spmesh.GetComponent<splineMesh>().spline.Spline.EditType=SplineType.CatmullRom;
+
     }
 
     private void createSaveableObjects(GameObject gare){
@@ -165,10 +184,10 @@ public class DrawMenu : MonoBehaviour
         newSaveGare.liaisons.Add(newln);
         oldSaveGare.liaisons.Add(newln);
         oldSaveGare = newSaveGare;
-    }
 
-    void ClearSpline(){
-        board.sContainer.Spline.Clear();
+        //add the new gare and link to the lists
+        gares.Add(newSaveGare);
+        lignes.Add(newln);
     }
 
     void putGareNames(List<string> names){
