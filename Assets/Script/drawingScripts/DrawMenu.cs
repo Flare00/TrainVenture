@@ -21,6 +21,9 @@ public class DrawMenu : MonoBehaviour
     private float WARNING_TIME;
     private bool POPUP_TOGGLED;
     private List<string> temp_names;//names within one popup menu instance.
+    private Gare oldSaveGare;
+
+
 
     //these do :
     public TextMeshPro info;
@@ -93,6 +96,7 @@ public class DrawMenu : MonoBehaviour
     public void CreateGare(int nameChoice){
         if(lastGare is null && board.sContainer.Spline.Count>1){//only if the rail has moved
             CreateFirstGare();}
+            CreateNewSplineMesh();
         GameObject gare = (GameObject)(Instantiate(Resources.Load("Prefabs/text/GareText")));
         Vector3 garePos = board.LocalPencilPosition();
 
@@ -101,9 +105,16 @@ public class DrawMenu : MonoBehaviour
                                                         spmesh.lastNormal);
         //create an optimizer class later
         if(lastGare is not null){
-            OptimizeSpline(lastGare.GetComponent<GareDrawing>().strText,gare.GetComponent<GareDrawing>().strText);}
+            OptimizeSpline(lastGare.GetComponent<GareDrawing>().strText,gare.GetComponent<GareDrawing>().strText);
+            createSaveableObjects(gare);//create a line and all
+        }else{
+            oldSaveGare = new Gare(gare.GetComponent<GareDrawing>().strText,
+            gare.transform.localPosition,
+            new List<Ligne>());//just set this gare. This only happens if the user creates one before drawing.
+        }
         lastGare = gare;
         CreateButtonRouter();//close the popup
+        ClearSpline();
     }
     void CreateFirstGare(){//repeating lines of code but too lazy to fix
         GameObject gare = (GameObject)(Instantiate(Resources.Load("Prefabs/text/GareText")));
@@ -111,6 +122,10 @@ public class DrawMenu : MonoBehaviour
                                       -board.sContainer.Spline.EvaluatePosition(0)[2]);
         gare.GetComponent<GareDrawing>().init(GameObject.Find("/Plane").transform,garePos,
                                                 "Oubliettes",new Vector3(0,0,0));
+
+        oldSaveGare = new Gare(gare.GetComponent<GareDrawing>().strText,
+            gare.transform.localPosition,
+            new List<Ligne>());
         lastGare = gare;
     }
 
@@ -127,6 +142,33 @@ public class DrawMenu : MonoBehaviour
             IndicesLeft.Clear();
             for(int i=0;i<GareNames.Count;i++){IndicesLeft.Add(i);}
         }
+    }
+
+    private void CreateNewSplineMesh(){
+        GameObject spmesh = (GameObject)(Instantiate(Resources.Load("Prefabs/SplineMesh/Spline")));
+        spmesh.GetComponent<splineMesh>().spline.Spline = board.sContainer.Spline;
+    }
+
+    private void createSaveableObjects(GameObject gare){
+        //create new link
+        Gare newSaveGare = new Gare(gare.GetComponent<GareDrawing>().strText,
+            gare.transform.localPosition,
+            new List<Ligne>());
+        Lien newlk = new Lien(newSaveGare,1);
+        Lien oldlk = new Lien(oldSaveGare,0);
+        //assign new link from last and new gares.
+        Ligne newln = new Ligne(newlk,oldlk,
+                                board.sContainer.Spline);
+        Debug.Log("created link between "+oldSaveGare.cityName+" and "+
+                                          newSaveGare.cityName);
+        //assign new line to last gare and new gare.
+        newSaveGare.liaisons.Add(newln);
+        oldSaveGare.liaisons.Add(newln);
+        oldSaveGare = newSaveGare;
+    }
+
+    void ClearSpline(){
+        board.sContainer.Spline.Clear();
     }
 
     void putGareNames(List<string> names){
