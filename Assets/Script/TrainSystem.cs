@@ -9,9 +9,10 @@ public class TrainSystem : MonoBehaviour
 {
     public Transition transition;
 
-    public SplineContainer spline;
 	public GameObject xr_rig;
 	public GameObject terrain;
+
+    public TrainPath trainPath;
 	private Train train;
 
     private bool showScreen = false;
@@ -43,7 +44,7 @@ public class TrainSystem : MonoBehaviour
             throttle = 0
         };
 
-        train = TrainGenerator.GenerateTrain(data,terrain, spline);
+        train = TrainGenerator.GenerateTrain(data,terrain, trainPath);
 
         Transform interior = train.wagons[0].transform.Find("WagonInterior");
         if(interior != null)

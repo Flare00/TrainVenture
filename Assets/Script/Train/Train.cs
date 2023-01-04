@@ -9,12 +9,25 @@ using UnityEngine.XR.Interaction.Toolkit;
 [Serializable]
 public class Train : MonoBehaviour
 {
+
+    private struct LigneExtra
+    {
+        public Ligne ligne;
+        public float avancementByMeter;
+        bool direction;
+
+        public LigneExtra(Ligne ligne, float length, bool direction)
+        {
+            this.ligne = ligne;
+            this.avancementByMeter = 1.0f / length;
+            this.direction = direction;
+        }
+    }
     private static readonly float[] MAX_SPEED_VALUES = { 14.0f, 20.0f, 30.0f, 41.0f, 55.0f, 72.0f }; //environ { 50, 75, 110, 150 , 200, 260 } kmh
     private static readonly float[] ACCELERATION_VALUES = { 0.1f, 0.15f, 0.25f, 0.4f, 0.6f, 0.9f };
     private static readonly float[] BRAKE_VALUES = { 0.3f, 0.6f, 1.0f, 1.5f, 2.2f, 3.0f };
 
     public GameObject terrain;
-    public SplineContainer chemin;
 
     public LeverValue speedLever;
     private Furnace four;
@@ -24,7 +37,7 @@ public class Train : MonoBehaviour
     public List<Wagon> wagons;
     private List<float> distWagon;
 
-    public float avancement = 0.0f;
+    public float avancement;
     public bool direction = true;
     public float speed = 0.0f; //in meter per seconds
     public float maxSpeed = 5.0f; //in meter per second 1m/s = 3.6km/h
@@ -32,11 +45,17 @@ public class Train : MonoBehaviour
 
     public float acceleratorMultiplicator = 0.1f;
     public float brakeMultiplicator = 0.3f;
-    private float avancementByMeter = 0.0f;
 
     public Compteur compteurVitesse = null;
     public Compteur compteurTemperature = null;
     public Compteur compteurPression = null;
+
+    // -- TRAIN PATH
+    public TrainPath trainPath;
+
+    private LigneExtra currentLine;
+    private List<LigneExtra> pastLines = new();
+
     public Train()
     {
         wagons = new List<Wagon>();
@@ -60,6 +79,34 @@ public class Train : MonoBehaviour
 
     private void Update()
     {
+        Avancement();
+        TrainPath.PossibleLigne possibility = this.trainPath.IsChangementPossible(currentLine.ligne, this.avancement, currentLine.avancementByMeter, direction);
+        if (possibility != null)
+        {
+            if (!direction)
+            {
+                Debug.Log(this.avancement + " >= " + (1.0f - currentLine.avancementByMeter) + " : "  + (this.avancement >= 1.0f - currentLine.avancementByMeter));
+            }
+            else
+            {
+                Debug.Log(this.avancement + " <= " + (currentLine.avancementByMeter) + " : " + (this.avancement <= currentLine.avancementByMeter));
+            }
+
+            // Test if we want to change line
+            if ((!direction && this.avancement >= 1.0f - currentLine.avancementByMeter) || (direction && this.avancement <= currentLine.avancementByMeter))
+            {
+                pastLines.Insert(0, currentLine);
+                currentLine = new LigneExtra(possibility.ligne, trainPath.FindSplineContainerByLigne(possibility.ligne).CalculateLength(), possibility.startAvancement > 0.5 ? false : true);
+                avancement = possibility.startAvancement;
+            }
+        }
+
+        UpdateWagons();
+        UpdateCompteurs();
+    }
+
+    private void Avancement()
+    {
         if (speedLever != null)
         {
             this.throttle = speedLever.valeur;
@@ -79,36 +126,93 @@ public class Train : MonoBehaviour
             speed = 0;
         }
 
-        avancement += (speed * avancementByMeter) * Time.deltaTime;
-        if (avancement >= 1.0f)
-        {
-            avancement %= 1.0f;
-        }
+        avancement += (speed * currentLine.avancementByMeter) * Time.deltaTime;
+    }
 
-        //locomotive.ComputePositionRotation(this.chemin, this.avancement, this.avancementByMeter);
+    private void UpdateWagons()
+    {
         if (wagons.Count > 0)
         {
 
-            for (int i = 0, max = wagons.Count; i < max; i++)
+
+            float avancement = this.avancement;
+
+            for (int i = 0; i < wagons.Count ; i++)
             {
-                Wagon.Result r = wagons[i].ComputePositionRotation(this.chemin, this.avancement - (distWagon[i] * this.avancementByMeter), this.avancementByMeter);
-                if (i > 0)
+                LigneExtra l = currentLine;
+                LigneExtra lar = currentLine;
+                int pastCursor = -1;
+                int pastCursorAR = -1;
+
+                avancement -= ((distWagon[i] *2.0f) * l.avancementByMeter);
+
+                float avancementAV = avancement + (wagons[i].GetDistEssieuAvant() * l.avancementByMeter);
+
+                while (avancementAV < 0.0)
                 {
-                    wagons[i].transform.SetPositionAndRotation(r.position, r.rotation);
+                    pastCursor++;
+                    if (pastCursor < pastLines.Count)
+                    {
+                        float oldAvancement = l.avancementByMeter;
+                        l = pastLines[pastCursor];
+                        avancementAV = 1.0f - ((Math.Abs(avancementAV) / oldAvancement) * l.avancementByMeter);
+                    } else
+                    {
+                        avancementAV = 1.0f;
+                    }
                 }
-                else
+
+                float avancementAR = avancement + (wagons[i].GetDistEssieuArriere() * l.avancementByMeter);
+
+                while (avancementAR < 0.0)
                 {
-                    terrain.transform.Translate(-r.position);
-                    wagons[i].transform.rotation = r.rotation;
+                    pastCursorAR++;
+                    if (pastCursorAR < pastLines.Count)
+                    {
+                        float oldAvancement = lar.avancementByMeter;
+                        lar = pastLines[pastCursorAR];
+                        avancementAR = 1.0f - ((Math.Abs(avancementAR) / oldAvancement) * lar.avancementByMeter);
+                    }
+                    else
+                    {
+                        avancementAR = 1.0f;
+                    }
+                }
+
+                if (pastCursor < pastLines.Count)
+                {
+                    //Wagon.Result r = wagons[i].ComputePositionRotation(this.trainPath.FindSplineContainerByLigne(l.ligne), avancement, l.avancementByMeter);
+
+                    Vector3 posAV = this.trainPath.FindSplineContainerByLigne(l.ligne).EvaluatePosition(avancementAV);
+                    Vector3 posAR = this.trainPath.FindSplineContainerByLigne(lar.ligne).EvaluatePosition(avancementAR);
+
+                    Vector3 right = Vector3.Cross(Vector3.up, posAR - posAV);
+                    Vector3 up = Vector3.Cross(posAR - posAV, right);
+
+                    Vector3 pos = (posAV + posAR) * 0.5f;
+                    Quaternion rotation = Quaternion.LookRotation(right, up);
+
+                    if (i > 0)
+                    {
+                        wagons[i].transform.SetPositionAndRotation(pos, rotation);
+                    }
+                    else
+                    {
+                        terrain.transform.Translate(-pos);
+                        wagons[i].transform.rotation = rotation;
+                    }
                 }
             }
         }
+    }
 
+    private void UpdateCompteurs()
+    {
         if (compteurVitesse != null)
         {
             compteurVitesse.SetValue(speed * 3.6f);
         }
-        if(wind != null)
+        if (wind != null)
         {
             wind.windMain = speed / 5.0f;
         }
@@ -121,32 +225,36 @@ public class Train : MonoBehaviour
             this.compteurTemperature.SetValue(four.temperature);
         }
     }
-
-    public void SetData(GameObject terrain, SplineContainer chemin, float avancement = 0.0f, bool direction = true, float maxSpeed = 5.0f, float speed = 0.0f, float throttle = 0.0f)
+    public void SetData(GameObject terrain, TrainPath trainPath, int ligne, float avancement = 0.0f, bool direction = true, float maxSpeed = 5.0f, float speed = 0.0f, float throttle = 0.0f)
     {
-        this.terrain = terrain;
-        this.chemin = chemin;
         this.avancement = avancement;
+        this.terrain = terrain;
+        this.trainPath = trainPath;
         this.direction = direction;
         this.maxSpeed = maxSpeed;
         this.speed = speed;
         this.throttle = throttle;
 
+        Ligne l = trainPath.GetLignes()[ligne];
+        this.currentLine = new LigneExtra(l, this.trainPath.FindSplineContainerByLigne(l).CalculateLength(), direction);
+        TrainPath.PossibleLigne possibility = this.trainPath.IsChangementPossible(currentLine.ligne, this.avancement, currentLine.avancementByMeter, !direction);
+        if (possibility != null)
+        {
+            this.pastLines.Add(new LigneExtra(possibility.ligne, this.trainPath.FindSplineContainerByLigne(possibility.ligne).CalculateLength(), possibility.startAvancement > 0.5 ? false : true));
+        }
     }
 
     public void UpdateData()
     {
         distWagon = new List<float>();
         //locomotive = GetComponent<Wagon>();
-        avancementByMeter = 1.0f / this.chemin.CalculateLength();
-        float distCumul = 0;//locomotive.GetLength()/2;
+
 
         for (int i = 0, max = wagons.Count; i < max; i++)
         {
             wagons[i].SetTrain(this);
             float tmpDist = wagons[i].GetLength();
-            distWagon.Add(distCumul + (tmpDist / 2.0f));
-            distCumul += tmpDist;
+            distWagon.Add((tmpDist / 2.0f));
         }
 
         if (wagons.Count > 0)
@@ -178,7 +286,7 @@ public class Train : MonoBehaviour
             this.wind = wagons[0].transform.GetComponentInChildren<WindZone>();
 
             LocomotiveInteraction li = wagons[0].GetComponent<LocomotiveInteraction>();
-            if(li != null)
+            if (li != null)
             {
                 li.train = this;
             }
@@ -206,9 +314,5 @@ public class Train : MonoBehaviour
         max = BRAKE_VALUES.Length;
         this.brakeMultiplicator = BRAKE_VALUES[tmpval < 0 ? 0 : tmpval >= max ? max - 1 : tmpval];
     }
-
-
-
-
 
 }

@@ -14,7 +14,13 @@ public class Gare : ITrainPath, IDataSave
     [SerializeField]
     public List<Ligne> liaisons;
 
-    public Gare(string n,Vector3 p,List<Ligne> l){
+    public Gare(string n, Vector3 p)
+    {
+        cityName = n;
+        position = p;
+        liaisons = new();
+    }
+    public Gare(string n,Vector3 p, List<Ligne> l){
         cityName = n;
         position = p;
         liaisons = l;

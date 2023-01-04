@@ -96,11 +96,21 @@ public class Wagon : MonoBehaviour
         return new Result((posEssieuAvant + posEssieuArriere) * 0.5f, Quaternion.LookRotation(right, up));
     }
 
+
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(posEssieuArriere, posEssieuAvant);
     }
 
+
+    public float GetDistEssieuAvant()
+    {
+        return this.distEssieuAvant;
+    }    
+    public float GetDistEssieuArriere()
+    {
+        return this.distEssieuArriere;
+    }
     
 }

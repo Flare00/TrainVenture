@@ -5,18 +5,18 @@ using UnityEngine.Splines;
 
 public class TrainGenerator
 {
-    public static Train GenerateTrain(TrainData data, GameObject terrain, SplineContainer path = null)
+    public static Train GenerateTrain(TrainData data, GameObject terrain, TrainPath trainPath)
     {
-        return GenerateTrain(terrain, path, data.direction, data.avancement, data.maxSpeed, data.speed, data.throttle, data.wagons);
+        return GenerateTrain(terrain, trainPath, data.direction, data.avancement, data.maxSpeed, data.speed, data.throttle, data.wagons);
     }
 
-    public static Train GenerateTrain(GameObject terrain, SplineContainer path, bool direction, float avancement, float maxSpeed, float speed, float throttle, List<TrainData.WagonType> types)
+    public static Train GenerateTrain(GameObject terrain, TrainPath trainPath, bool direction, float avancement, float maxSpeed, float speed, float throttle, List<TrainData.WagonType> types)
     {
         GameObject tGo = new("Train");
 
         Train train = tGo.AddComponent<Train>();
 
-        train.SetData(terrain, path, avancement, direction, maxSpeed, speed, throttle);
+        train.SetData(terrain, trainPath,0, avancement, direction, maxSpeed, speed, throttle);
         train.LoadUpgradeData();
 
         for (int i = 0; i < types.Count; i++)

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028378, g: 0.22571412, b: 0.30692285, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028352, g: 0.22571376, b: 0.30692244, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -190,6 +190,37 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 3782580333504131708}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &431039456
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 431039457}
+  m_Layer: 0
+  m_Name: Lignes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &431039457
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 431039456}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 500875222}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &500875218
 GameObject:
   m_ObjectHideFlags: 0
@@ -202,6 +233,8 @@ GameObject:
   - component: {fileID: 500875221}
   - component: {fileID: 500875220}
   - component: {fileID: 500875219}
+  - component: {fileID: 500875223}
+  - component: {fileID: 500875224}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -286,9 +319,40 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 122414909}
+  - {fileID: 431039457}
+  - {fileID: 847677795}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &500875223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500875218}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71bca682f4adbe49b953936b6dfc6f4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  splineContainer: {fileID: 122414907}
+--- !u!114 &500875224
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500875218}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92dcb11dc7963d04b94acc7728bc0d46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  terrain: {fileID: 500875221}
+  lignesContainer: {fileID: 431039456}
+  garesContainer: {fileID: 847677794}
+  trainPathName: one
 --- !u!1 &517871826
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,9 +384,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   transition: {fileID: 1166810604}
-  spline: {fileID: 122414908}
   xr_rig: {fileID: 299357696}
   terrain: {fileID: 500875218}
+  trainPath: {fileID: 500875224}
 --- !u!4 &517871828
 Transform:
   m_ObjectHideFlags: 0
@@ -345,16 +409,42 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 517871826}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 78183319930709c48ac0c5a44a0a6fa6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  terrain: {fileID: 500875218}
-  spline: {fileID: 122414908}
-  garePosition:
-  - 0.01
-  - 0.5
+--- !u!1 &847677794
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 847677795}
+  m_Layer: 0
+  m_Name: Gares
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &847677795
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 847677794}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 500875222}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &948550986 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7032257326418930570, guid: a4c9dee72db0e26488f796b1d70c036c,
