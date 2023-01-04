@@ -18,6 +18,8 @@ public class ProceduralGeneration : MonoBehaviour
     private int offsetY;
     private float minHeight = Single.MaxValue;
 
+    public bool loadHeightMap = true;
+
     int sizeBrushSpline = 10;
 
     [Range(0,15)]
@@ -45,11 +47,38 @@ public class ProceduralGeneration : MonoBehaviour
             offsetX = UnityEngine.Random.Range(-10000,10000);
             offsetY = UnityEngine.Random.Range(-10000,10000);
 
-            GenerateHeightMap();
+            if(!loadHeightMap)
+                GenerateHeightMap();
+            else
+                LoadHeightmap();
             GenerateTextures();
             ApplyHeightmapToSpline();
             GenerateDetails();
             GenerateTrees();
+        }
+
+        void LoadHeightmap()
+        {
+            var texture = Resources.Load<Texture2D>("RunTimeImages/HeightMap");
+
+            resolution = texture.width;
+
+            terrain.terrainData.heightmapResolution = resolution;
+            terrain.terrainData.baseMapResolution = resolution;
+            terrain.terrainData.alphamapResolution = resolution;
+
+            heightmap = new float[TData.heightmapResolution,TData.heightmapResolution]; // Range[0,1]
+
+            for(int i = 0; i<resolution; i++)
+            {
+                for(int j = 0; j<resolution; j++)
+                {
+                    heightmap[i, j] = texture.GetPixel(i, j).grayscale;
+                    Debug.Log(heightmap[i, j]);
+                }
+            }
+
+            TData.SetHeights(0, 0, heightmap);
         }
 
         void GenerateHeightMap()
