@@ -216,6 +216,10 @@ public class ProceduralGeneration : MonoBehaviour
         void ApplyHeightmapToSpline(){
             TrainPath trainPath = this.GetComponent<TrainPath>();
             trainPath.Initialisation(resolution, 100);
+
+            foreach(Ligne l  in trainPath.GetLignes()) {
+                AdjustAlongSpline(l.spline);    
+            }
         }
 
         float normalizeHeight(float initialHeight)
