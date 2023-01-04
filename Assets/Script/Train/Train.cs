@@ -83,14 +83,6 @@ public class Train : MonoBehaviour
         TrainPath.PossibleLigne possibility = this.trainPath.IsChangementPossible(currentLine.ligne, this.avancement, currentLine.avancementByMeter, direction);
         if (possibility != null)
         {
-            if (!direction)
-            {
-                Debug.Log(this.avancement + " >= " + (1.0f - currentLine.avancementByMeter) + " : "  + (this.avancement >= 1.0f - currentLine.avancementByMeter));
-            }
-            else
-            {
-                Debug.Log(this.avancement + " <= " + (currentLine.avancementByMeter) + " : " + (this.avancement <= currentLine.avancementByMeter));
-            }
 
             // Test if we want to change line
             if ((!direction && this.avancement >= 1.0f - currentLine.avancementByMeter) || (direction && this.avancement <= currentLine.avancementByMeter))
