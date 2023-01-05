@@ -90,7 +90,6 @@ public class ProceduralGeneration : MonoBehaviour
                 for(int j = 0; j<resolution; j++)
                 {
                     heightmap[i, j] = readableText.GetPixel(i, j).grayscale;
-                    Debug.Log(heightmap[i, j]);
                 }
             }
 
@@ -220,7 +219,6 @@ public class ProceduralGeneration : MonoBehaviour
                     }
                 }
             }
-            Debug.Log("Number of trees: "+TData.treeInstanceCount);
         }
 
         Spline normalizeSplinePositions(Spline spline)
@@ -279,10 +277,10 @@ public class ProceduralGeneration : MonoBehaviour
         {
             int width = TData.heightmapResolution;
             int height = TData.heightmapResolution;
-            float brushFallOff = 0.3f;
+            float brushFallOff = 0.9f;
             int sqrRadius = sizeBrushSpline * sizeBrushSpline;
             float[,,] splatmapData = TData.GetAlphamaps(0,0, TData.alphamapWidth, TData.alphamapHeight);
-            for(float i = 0.002f; i < 1.0f; i+=0.002f)
+            for(float i = 0.002f; i < 0.99f; i+=0.002f)
             {
                 float3 pos = spline.EvaluatePosition(i);
 
