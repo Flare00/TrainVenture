@@ -125,11 +125,11 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3841975047494475881}
   - {fileID: 8012876004737715709}
   - {fileID: 2415446371069053117}
   - {fileID: 768728658354798803}
   - {fileID: 1643008030742527518}
-  - {fileID: 3841975047494475881}
   - {fileID: 5894038527335587830}
   - {fileID: 5015427933652915219}
   m_Father: {fileID: 0}
@@ -208,6 +208,16 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 3015049641698590696}
     m_Modifications:
+    - target: {fileID: 3285402210395384296, guid: 95517bd7571dbac4696d7b19eb3fd513,
+        type: 3}
+      propertyPath: m_MovementType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3285402210395384296, guid: 95517bd7571dbac4696d7b19eb3fd513,
+        type: 3}
+      propertyPath: m_RetainTransformParent
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7133462689284164788, guid: 95517bd7571dbac4696d7b19eb3fd513,
         type: 3}
       propertyPath: m_Name

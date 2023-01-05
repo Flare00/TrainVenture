@@ -188,12 +188,17 @@ public class Train : MonoBehaviour
 
                     if (i > 0)
                     {
-                        wagons[i].transform.SetPositionAndRotation(pos, rotation);
+                        //wagons[i].transform.SetPositionAndRotation(pos, rotation);
                     }
                     else
                     {
                         terrain.transform.Translate(-pos);
-                        wagons[i].transform.rotation = rotation;
+                        //Debug.Log(rotation.eulerAngles);
+                        
+                        if (wagons[i].transform.rotation.eulerAngles != rotation.eulerAngles)
+                        {
+                            wagons[i].transform.rotation = rotation;
+                        }
                     }
                 }
             }

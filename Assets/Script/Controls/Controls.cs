@@ -37,7 +37,6 @@ public class Controls : MonoBehaviour
         float trigger = triggerAction.action?.ReadValue<float>() ?? 0.0f;
         float grip = gripAction.action?.ReadValue<float>() ?? 0.0f;
 
-        Debug.Log("ForceRaycast : " + FORCE_RAYCAST);
         if (!FORCE_RAYCAST)
         {
             if (trigger > 0.1f | local_force_raycast)
