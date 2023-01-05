@@ -20,7 +20,9 @@ public class TrainPath : MonoBehaviour
             this.splineContainer = splineContainer;
         }
     }
-    public class PossibleLigne{
+
+    public class PossibleLigne
+    {
         public Ligne ligne;
         public float startAvancement;
 
@@ -30,20 +32,23 @@ public class TrainPath : MonoBehaviour
             this.startAvancement = startAvancement;
         }
     }
+
     public Terrain terrain;
     public GameObject lignesContainer;
     public GameObject garesContainer;
 
+    public string customTrainPathName = "one";
     public string trainPathName = "one";
-    
+
     private DataTrainPath dataTrainPath;
     private List<LigneSplineContainer> lignesSplineContainers = new();
 
     // Start is called before the first frame update
     public void Initialisation(float size, int nbSubdivision)
     {
-        dataTrainPath = (DataTrainPath)SaveLoad.GetInstance().Load("TrainPath/" + trainPathName + ".data");
-        float decalage = size ;
+        dataTrainPath = (DataTrainPath)SaveLoad.GetInstance().Load("TrainPath/" + (DataBetweenScene.custom ? customTrainPathName : trainPathName) + ".data");
+
+        float decalage = size;
 
         size /= 5.0f;
         foreach (Gare g in dataTrainPath.gares)
@@ -53,7 +58,7 @@ public class TrainPath : MonoBehaviour
             go.transform.SetParent(garesContainer.transform, false);
 
             g.position[1] = terrain.SampleHeight(new Vector3(g.position[0], 0, g.position[2]));
-            go.transform.localPosition = (g.position * size) + new Vector3(decalage, 0, decalage) ;
+            go.transform.localPosition = (g.position * size) + new Vector3(decalage, 0, decalage);
         }
 
         int increment = 0;
@@ -61,7 +66,7 @@ public class TrainPath : MonoBehaviour
         {
             GameObject go = new GameObject("" + increment);
             go.transform.SetParent(lignesContainer.transform, false);
-            
+
             SplineContainer sc = go.AddComponent<SplineContainer>();
 
             for (int i = 0; i < l.spline.Count; i++)
@@ -180,12 +185,12 @@ public class TrainPath : MonoBehaviour
     {
         return dataTrainPath.lignes;
     }
-    
+
     public SplineContainer FindSplineContainerByLigne(Ligne l)
     {
         SplineContainer res = null;
 
-        for(int i = 0; i < this.lignesSplineContainers.Count && res == null; i++)
+        for (int i = 0; i < this.lignesSplineContainers.Count && res == null; i++)
         {
             if (this.lignesSplineContainers[i].ligne.GetHashCode() == l.GetHashCode())
             {

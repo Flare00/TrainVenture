@@ -125,18 +125,16 @@ public class Train : MonoBehaviour
     {
         if (wagons.Count > 0)
         {
-
-
             float avancement = this.avancement;
 
-            for (int i = 0; i < wagons.Count ; i++)
+            for (int i = 0; i < wagons.Count; i++)
             {
                 LigneExtra l = currentLine;
                 LigneExtra lar = currentLine;
                 int pastCursor = -1;
                 int pastCursorAR = -1;
 
-                avancement -= ((distWagon[i] *2.0f) * l.avancementByMeter);
+                avancement -= ((distWagon[i] * 2.0f) * l.avancementByMeter);
 
                 float avancementAV = avancement + (wagons[i].GetDistEssieuAvant() * l.avancementByMeter);
 
@@ -148,7 +146,8 @@ public class Train : MonoBehaviour
                         float oldAvancement = l.avancementByMeter;
                         l = pastLines[pastCursor];
                         avancementAV = 1.0f - ((Math.Abs(avancementAV) / oldAvancement) * l.avancementByMeter);
-                    } else
+                    }
+                    else
                     {
                         avancementAV = 1.0f;
                     }

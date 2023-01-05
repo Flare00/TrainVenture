@@ -31,8 +31,9 @@ public class MainMenuScript : MonoBehaviour
         }
     }
 
-    public void Play()
+    public void Play(bool custom)
     {
+        DataBetweenScene.custom = custom;
         loader = SceneManager.LoadSceneAsync("Game");
         loader.allowSceneActivation = false;
         Controls.FORCE_RAYCAST = false;
