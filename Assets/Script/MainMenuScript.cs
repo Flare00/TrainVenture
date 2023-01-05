@@ -48,15 +48,6 @@ public class MainMenuScript : MonoBehaviour
         transition.Hide();
     }
 
-    public void HeightmapEditor()
-    {
-        loader = SceneManager.LoadSceneAsync("HeightMapScene");
-        loader.allowSceneActivation = false;
-        Controls.FORCE_RAYCAST = false;
-        transition.Hide();
-    }
-
-
     public void OpenOptions()
     {
         mainMenu.SetActive(false);

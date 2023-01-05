@@ -265,7 +265,7 @@ public class ProceduralGeneration : MonoBehaviour
             trainPath.Initialisation(resolution, 100);
 
             foreach(Ligne l  in trainPath.GetLignes()) {
-                AdjustAlongSpline(l.spline);    
+                //AdjustAlongSpline(l.spline);    
             }
         }
 

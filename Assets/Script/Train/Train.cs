@@ -67,10 +67,7 @@ public class Train : MonoBehaviour
         ShopData.GetInstance().SubscribeUpgradeChange(LoadUpgradeData);
         UpdateData();
 
-        if (DataBetweenScene.custom)
-        {
             avancement = currentLine.avancementByMeter * distWagon[0] * 4.0f;
-        }
 
     }
 
