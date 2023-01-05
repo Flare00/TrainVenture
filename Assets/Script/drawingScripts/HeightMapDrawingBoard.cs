@@ -16,7 +16,6 @@ public class HeightMapDrawingBoard : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        pencil = GameObject.Find("pencil");
         pencilMaterial = pencil.GetComponent<Renderer>().material;
         print(pencilMaterial);
     }
@@ -71,7 +70,7 @@ public class HeightMapDrawingBoard : MonoBehaviour
     }
 
     private Vector3 PencilPosition(){//for inside use
-        return (pencil.transform.position-new Vector3(-0.5f,1.0f,0.0f))*(1.0f/0.05f);//have to multiply because plane is downscaled
+        return (pencil.transform.position-new Vector3(-0.5f,1.0f,0.0f))*(1.0f/0.1f);//have to multiply because plane is downscaled
     }
     public bool pencilIsDrawing(){
         Vector3 worldTransform = PencilPosition();

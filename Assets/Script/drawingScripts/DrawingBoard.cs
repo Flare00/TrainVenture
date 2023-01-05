@@ -18,7 +18,6 @@ public class DrawingBoard : MonoBehaviour
     void Start()
     {
         cumulDist=0;
-        pencil = GameObject.Find("pencil");
         lastPosition = new Vector2(0.0f,0.0f);
         lastPosition[0]=pencil.transform.position[2];
         lastPosition[1]=pencil.transform.position[1];
@@ -54,7 +53,7 @@ public class DrawingBoard : MonoBehaviour
     }
 
     private Vector3 PencilPosition(){//for inside use
-        return (pencil.transform.position-new Vector3(-0.5f,1.0f,0.0f))*(1.0f/0.05f);//have to multiply because plane is downscaled
+        return (pencil.transform.position-new Vector3(-0.5f,1.0f,0.0f))*(1.0f/0.1f);//have to multiply because plane is downscaled
     }
     public bool pencilIsDrawing(){
         Vector3 worldTransform = PencilPosition();
