@@ -36,7 +36,7 @@ public class LeftControls : Controls
             Vector2 v = teleportationAction.action.ReadValue<Vector2>();
             if (!teleportationPressed)
             {
-                if (Mathf.Abs(v.x) > 0.1f || Mathf.Abs(v.y) > 0.1f)
+                if (Mathf.Abs(v.x) > 0.05f || Mathf.Abs(v.y) > 0.05f)
                 {
                     teleportationPressed = true;
                     local_force_raycast = true;
@@ -45,7 +45,7 @@ public class LeftControls : Controls
             }
             else
             {
-                if (Mathf.Abs(v.x) < 0.1f || Mathf.Abs(v.y) < 0.1f)
+                if (Mathf.Abs(v.x) < 0.05f || Mathf.Abs(v.y) < 0.05f)
                 {
                     /*RaycastHit r;
                     if (raycastInteractor.GetComponent<XRRayInteractor>().TryGetCurrent3DRaycastHit(out r))

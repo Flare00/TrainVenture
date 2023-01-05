@@ -2027,6 +2027,7 @@ MonoBehaviour:
   pauseMenu: {fileID: 1120300003788640857}
   upgradeMenu: {fileID: 1120300003248206944}
   optionsMenu: {fileID: 7032257326418930570}
+  transition: {fileID: 0}
 --- !u!1 &3782580334385528037
 GameObject:
   m_ObjectHideFlags: 0

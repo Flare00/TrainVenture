@@ -2680,6 +2680,7 @@ GameObject:
   - component: {fileID: 7120873703759929507}
   - component: {fileID: 7747683365598133918}
   - component: {fileID: 7747683365598133919}
+  - component: {fileID: 7747683365598133920}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -2779,6 +2780,19 @@ MonoBehaviour:
   optionsMenu: {fileID: 921530153163284597}
   cam: {fileID: 1329517643}
   transition: {fileID: 275648964}
+--- !u!114 &7747683365598133920
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7120873703759929506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f85ed719d14fac499630a0959384317, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultStatus: 1
 --- !u!114 &9213577733636658954
 MonoBehaviour:
   m_ObjectHideFlags: 0
