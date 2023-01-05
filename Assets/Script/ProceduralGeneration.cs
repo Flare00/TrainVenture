@@ -16,7 +16,6 @@ public class ProceduralGeneration : MonoBehaviour
     [SerializeField]float minSize,maxSize;
     private int offsetX;
     private int offsetY;
-    private float minHeight = Single.MaxValue;
 
     public bool loadHeightMap = true;
 
@@ -32,8 +31,8 @@ public class ProceduralGeneration : MonoBehaviour
             terrain.enabled = true;
             terrain.drawInstanced = true;
             terrain.drawTreesAndFoliage = true;
-            terrain.detailObjectDensity = 0.5f;
-            terrain.treeDistance = 3000;
+            terrain.detailObjectDensity = 0.3f;
+            terrain.treeDistance = 2000;
             TData = terrain.terrainData;
 
             TData.RefreshPrototypes();
@@ -265,7 +264,7 @@ public class ProceduralGeneration : MonoBehaviour
             trainPath.Initialisation(resolution, 100);
 
             foreach(Ligne l  in trainPath.GetLignes()) {
-                //AdjustAlongSpline(l.spline);    
+                AdjustAlongSpline(l.spline);
             }
         }
 
@@ -313,14 +312,12 @@ public class ProceduralGeneration : MonoBehaviour
     
                                 if (brushX >= 0 && brushY >= 0 && brushX < width && brushY < height)
                                 {
-                                    heightmap[brushX, brushY] += deltaHeight * brushWeight;
+                                    /*heightmap[brushX, brushY] += deltaHeight * brushWeight;
                                     if (heightmap[brushX, brushY] > targetHeight)
                                     {
                                         heightmap[brushX, brushY] = targetHeight;
                                     }
-                                    if(heightmap[brushX, brushY] < minHeight)
-                                        minHeight = heightmap[brushX,brushY];
-
+*/
                                     splatmapData[brushX, brushY,0] = 0;
                                     splatmapData[brushX, brushY,1] = 0;
                                     splatmapData[brushX, brushY,2] = 0;
