@@ -3485,9 +3485,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 92681856}
+      - m_Target: {fileID: 92681863}
         m_TargetAssemblyTypeName: HeightMapDrawMenu, Assembly-CSharp
-        m_MethodName: 
+        m_MethodName: changePencilSize
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4610,7 +4610,7 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.2
+  near clip plane: 0.18
   far clip plane: 0.28
   field of view: 60
   orthographic: 1
@@ -4688,7 +4688,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Lisser la carte
+  m_text: Changer la taille du pinceau
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

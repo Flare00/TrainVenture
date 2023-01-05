@@ -11,13 +11,15 @@ public class HeightMapDrawingBoard : MonoBehaviour
     public float map_altitude;
     private Material pencilMaterial;
     private float colorIntensity=0.0f;
+    private float scale_factor=0.0f;
+    private Vector3 origScale;
 
     public RenderTexture map;
     // Start is called before the first frame update
     void Start()
     {
         pencilMaterial = pencil.GetComponent<Renderer>().material;
-        print(pencilMaterial);
+        origScale = pencil.transform.localScale;
     }
 
     // Update is called once per frame
@@ -39,6 +41,12 @@ public class HeightMapDrawingBoard : MonoBehaviour
         colorIntensity = (colorIntensity+0.1f)%1.0f;
         pencilMaterial.color = new Color(colorIntensity,colorIntensity,colorIntensity,1.0f);
         print(pencilMaterial.color);
+    }
+
+    public void changePencilSize(){
+        scale_factor = (scale_factor+0.3f)%2.0f;
+        pencil.transform.localScale = origScale*scale_factor;
+        Debug.Log("pencil scale : "+pencil.transform.localScale.ToString());
     }
 
 
