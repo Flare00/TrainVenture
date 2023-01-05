@@ -32,6 +32,7 @@ public class ProceduralGeneration : MonoBehaviour
             terrain.enabled = true;
             terrain.drawInstanced = true;
             terrain.drawTreesAndFoliage = true;
+            terrain.detailObjectDensity = 0.5f;
             terrain.treeDistance = 3000;
             TData = terrain.terrainData;
 
@@ -45,6 +46,7 @@ public class ProceduralGeneration : MonoBehaviour
             terrain.terrainData.heightmapResolution = resolution;
             terrain.terrainData.baseMapResolution = resolution;
             terrain.terrainData.alphamapResolution = resolution;
+            TData.SetDetailResolution(resolution, 8);
             offsetX = UnityEngine.Random.Range(-10000,10000);
             offsetY = UnityEngine.Random.Range(-10000,10000);
 
@@ -83,6 +85,7 @@ public class ProceduralGeneration : MonoBehaviour
             terrain.terrainData.heightmapResolution = resolution;
             terrain.terrainData.baseMapResolution = resolution;
             terrain.terrainData.alphamapResolution = resolution;
+            TData.SetDetailResolution(resolution, 8);
 
             heightmap = new float[TData.heightmapResolution,TData.heightmapResolution]; // Range[0,1]
 
@@ -178,8 +181,8 @@ public class ProceduralGeneration : MonoBehaviour
                 {
                     float y_01 = (float)y/(float)TData.detailWidth;
                     float x_01 = (float)x/(float)TData.detailWidth;
-                    float height = TData.GetHeight(Mathf.RoundToInt(y_01 * TData.heightmapResolution),Mathf.RoundToInt(x_01 * TData.heightmapResolution) );
-                    if( height < minHeight * TData.heightmapScale.y)
+                    float height = TData.GetHeight(Mathf.RoundToInt(x_01 * TData.heightmapResolution),Mathf.RoundToInt(y_01 * TData.heightmapResolution) );
+                    if( height < maxHeight/ 1.8 && splatmapData[x,y,3] == 0)
                         map[x, y] = 1;
                     else
                         map[x, y] = 0;
