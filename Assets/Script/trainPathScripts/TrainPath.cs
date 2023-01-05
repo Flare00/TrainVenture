@@ -52,7 +52,6 @@ public class TrainPath : MonoBehaviour
             go.name = g.cityName;
             go.transform.SetParent(garesContainer.transform, false);
 
-            Debug.Log("Gare " + g.cityName + " : " + g.position);
             g.position[1] = terrain.SampleHeight(new Vector3(g.position[0], 0, g.position[2]));
             go.transform.localPosition = (g.position * size) + new Vector3(decalage, 0, decalage) ;
         }
@@ -64,16 +63,13 @@ public class TrainPath : MonoBehaviour
             go.transform.SetParent(lignesContainer.transform, false);
             
             SplineContainer sc = go.AddComponent<SplineContainer>();
-            Debug.Log("Ligne " + increment + " : " + l.spline.Count);
 
             for (int i = 0; i < l.spline.Count; i++)
             {
                 BezierKnot b = l.spline[i];
-                Debug.Log("B Ligne " + increment + " : " + b.Position);
 
                 b.Position[0] = (b.Position[0] * size) + decalage;
                 b.Position[2] = (b.Position[2] * -size) + decalage;
-                Debug.Log("A Ligne " + increment + " : " + b.Position);
 
                 l.spline[i] = b;
             }
