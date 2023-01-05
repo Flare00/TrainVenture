@@ -24,6 +24,9 @@ public class DrawMenu : MonoBehaviour
     private List<string> temp_names;//names within one popup menu instance.
     private Gare oldSaveGare;
 
+    public Transition transition;
+    private AsyncOperation loader = null;
+
     //pour la sauvegarde :
     public List<Gare> gares = new List<Gare>();
     public List<Ligne> lignes = new List<Ligne>();
@@ -48,11 +51,21 @@ public class DrawMenu : MonoBehaviour
         temp_names = new List<string>();
         IndicesLeft = new List<int>();
         CheckTakenIndices();//fill IndicesLeft with indices.
+
+        transition.Show();
     }
 
     private void Update()
     {
         CheckWarning();
+
+        if(loader != null)
+        {
+            if (transition.GetValue() < 0.01f)
+            {
+                loader.allowSceneActivation = true;
+            }
+        }
     }
 
     public void CreateButtonRouter(){
@@ -150,6 +163,13 @@ public class DrawMenu : MonoBehaviour
             Debug.Log("gare"+i.ToString()+" has "+gares[i].liaisons.Count.ToString());
         }
         SaveLoad.GetInstance().Save(new DataTrainPath(gares, lignes), "TrainPath/one.data");
+    }
+
+    public void retourMenu(){
+        loader = SceneManager.LoadSceneAsync("MainMenu");
+        loader.allowSceneActivation = true;
+        Controls.FORCE_RAYCAST = false;
+        transition.Hide();
     }
 
     void CheckTakenIndices(){
