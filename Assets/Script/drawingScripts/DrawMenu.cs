@@ -109,7 +109,7 @@ public class DrawMenu : MonoBehaviour
                                                         spmesh.lastNormal);
         //create an optimizer class later
         if(lastGare is not null){
-            OptimizeSpline(lastGare.GetComponent<GareDrawing>().strText,gare.GetComponent<GareDrawing>().strText);
+            OptimizeSpline();
             createSaveableObjects(gare);//create a line and all
             CreateNewSplineMesh();
         }else{//just set this gare. This only happens if the user creates one before drawing.
@@ -139,8 +139,8 @@ public class DrawMenu : MonoBehaviour
         gares.Add(oldSaveGare);
     }
 
-    private void OptimizeSpline(string start, string end){
-        Debug.Log("optimizing path between "+start+" and "+end+" (actually not implemented yet)");
+    private void OptimizeSpline(){
+        Debug.Log("optimizing path of length "+board.sContainer.Spline.Count.ToString());
     }
 
     public void save(){
@@ -167,7 +167,6 @@ public class DrawMenu : MonoBehaviour
         newsp.Copy(board.sContainer.GetComponent<splineMesh>().spline.Spline);
         spmesh.GetComponent<splineMesh>().spline.Spline = newsp;
         spmesh.GetComponent<splineMesh>().spline.Spline.EditType=SplineType.CatmullRom;
-
     }
 
     private void createSaveableObjects(GameObject gare){

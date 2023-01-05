@@ -33,7 +33,7 @@ public class DrawingBoard : MonoBehaviour
 
         Vector3 worldTransform = PencilPosition();
         float pencilX = -worldTransform[2];//minus to accomodate for 180 degrees rotation.
-        float pencilY = worldTransform[1];
+        float pencilY = worldTransform[0];
 
         if(pencilIsDrawing()){
             cumulDist += System.Math.Sqrt(
@@ -54,11 +54,11 @@ public class DrawingBoard : MonoBehaviour
     }
 
     private Vector3 PencilPosition(){//for inside use
-        return (pencil.transform.position-new Vector3(0.0f,1.0f,0.0f))*5.0f;//have to multiply by 5 because plane has scale 0.2
+        return (pencil.transform.position-new Vector3(-0.5f,1.0f,0.0f))*(1.0f/0.05f);//have to multiply because plane is downscaled
     }
     public bool pencilIsDrawing(){
         Vector3 worldTransform = PencilPosition();
-        return System.Math.Abs(worldTransform[0])<0.2 && System.Math.Abs(worldTransform[1])<5 && System.Math.Abs(worldTransform[2])<5;
+        return System.Math.Abs(worldTransform[1])<0.2 && System.Math.Abs(worldTransform[0])<5 && System.Math.Abs(worldTransform[2])<5;
     }
     public Vector3 LocalPencilPosition(){//for outside use
         return GameObject.Find("Manche").transform.localPosition;

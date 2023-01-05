@@ -71,7 +71,7 @@ public class HeightMapDrawingBoard : MonoBehaviour
     }
 
     private Vector3 PencilPosition(){//for inside use
-        return (pencil.transform.position-new Vector3(0.0f,1.0f,0.0f))*5.0f;//have to multiply by 5 because plane has scale 0.2
+        return (pencil.transform.position-new Vector3(-0.5f,1.0f,0.0f))*(1.0f/0.05f);//have to multiply because plane is downscaled
     }
     public bool pencilIsDrawing(){
         Vector3 worldTransform = PencilPosition();

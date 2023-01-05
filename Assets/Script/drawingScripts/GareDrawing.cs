@@ -22,9 +22,10 @@ public class GareDrawing : MonoBehaviour
         GetComponent<TextChangeScript>().SetText(text);
 
         transform.SetParent(parent);
-        transform.localPosition=new Vector3(garePos[0],0.5f,garePos[2]);
+        transform.localPosition=new Vector3(garePos[0],0.05f,garePos[2]);
         transform.Rotate(new Vector3(0,90,0));
-        transform.localScale*=0.05f;
+        transform.Rotate(new Vector3(90,0,0));
+        transform.localScale*=0.02f;
 
         addGareMesh(parent);
 
