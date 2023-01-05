@@ -1,4 +1,5 @@
 using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -42,15 +43,18 @@ public class TrainPath : MonoBehaviour
     public void Initialisation(float size, int nbSubdivision)
     {
         dataTrainPath = (DataTrainPath)SaveLoad.GetInstance().Load("TrainPath/" + trainPathName + ".data");
+        float decalage = size ;
 
+        size /= 5.0f;
         foreach (Gare g in dataTrainPath.gares)
         {
             GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Gare/Gare") as GameObject);
             go.name = g.cityName;
             go.transform.SetParent(garesContainer.transform, false);
-            go.transform.localPosition = g.position * size;
 
-
+            Debug.Log("Gare " + g.cityName + " : " + g.position);
+            g.position[1] = terrain.SampleHeight(new Vector3(g.position[0], 0, g.position[2]));
+            go.transform.localPosition = (g.position * size) + new Vector3(decalage, 0, decalage) ;
         }
 
         int increment = 0;
@@ -60,11 +64,17 @@ public class TrainPath : MonoBehaviour
             go.transform.SetParent(lignesContainer.transform, false);
             
             SplineContainer sc = go.AddComponent<SplineContainer>();
+            Debug.Log("Ligne " + increment + " : " + l.spline.Count);
+
             for (int i = 0; i < l.spline.Count; i++)
             {
                 BezierKnot b = l.spline[i];
-                b.Position[0] = b.Position[0] * size;
-                b.Position[2] = b.Position[2] * size;
+                Debug.Log("B Ligne " + increment + " : " + b.Position);
+
+                b.Position[0] = (b.Position[0] * size) + decalage;
+                b.Position[2] = (b.Position[2] * -size) + decalage;
+                Debug.Log("A Ligne " + increment + " : " + b.Position);
+
                 l.spline[i] = b;
             }
             sc.Spline = l.spline;

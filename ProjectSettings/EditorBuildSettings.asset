@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Game.unity
     guid: 7662e89086c098146a7ecc599bd2ed5e
+  - enabled: 1
+    path: Assets/Scenes/HeightMapScene.unity
+    guid: e5dd1946a163edc49aa4e2e4a992b8cd
+  - enabled: 1
+    path: Assets/Scenes/DrawTest.unity
+    guid: 2e67510777129be4b8f83934a107378c
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: bfa1182bd221b4ca89619141f66f1260,
       type: 2}

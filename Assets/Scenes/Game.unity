@@ -233,7 +233,6 @@ GameObject:
   - component: {fileID: 500875221}
   - component: {fileID: 500875220}
   - component: {fileID: 500875219}
-  - component: {fileID: 500875223}
   - component: {fileID: 500875224}
   m_Layer: 0
   m_Name: Terrain
@@ -260,6 +259,7 @@ MonoBehaviour:
   spline: {fileID: 122414908}
   minSize: 0.8
   maxSize: 2
+  loadHeightMap: 1
   divRange: 4.45
 --- !u!154 &500875220
 TerrainCollider:
@@ -324,19 +324,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &500875223
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 500875218}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f71bca682f4adbe49b953936b6dfc6f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  splineContainer: {fileID: 122414907}
 --- !u!114 &500875224
 MonoBehaviour:
   m_ObjectHideFlags: 0

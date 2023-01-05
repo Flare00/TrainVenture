@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Splines;
 using TMPro;
+using Unity.VisualScripting;
 
 public class DrawMenu : MonoBehaviour
 {
@@ -177,8 +178,8 @@ public class DrawMenu : MonoBehaviour
         Lien newlk = new Lien(newSaveGare,1);
         Lien oldlk = new Lien(oldSaveGare,0);
         //assign new link from last and new gares.
-        Ligne newln = new Ligne(newlk,oldlk,
-                                board.sContainer.Spline);
+        Ligne newln = new Ligne(oldlk, newlk,
+                                board.sContainer.Spline.CloneViaSerialization());
         Debug.Log("created link between "+oldSaveGare.cityName+" and "+
                                           newSaveGare.cityName);
         //assign new line to last gare and new gare.
