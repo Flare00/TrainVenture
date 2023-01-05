@@ -40,22 +40,8 @@ public class HeightMapDrawingBoard : MonoBehaviour
         pencilMaterial.color = new Color(colorIntensity,colorIntensity,colorIntensity,1.0f);
         print(pencilMaterial.color);
     }
-/*
-        should do this to make the UI more convenient, but I can't find a out-of-box unity way of blurring a 
-                    renderTexture and implementing it myself is overkill
-    public void smoothMap(){
-        //try to use graphics.Blit();
-        RenderTexture rt1 = RenderTexture.GetTemporary(source.width / 4, source.height / 4);
-        RenderTexture rt2 = RenderTexture.GetTemporary(source.width / 4, source.height / 4);
-        Graphics.Blit(source, rt1, 0);
 
-        //  otherwise : 
-        //get tex as array
-        //create a new one
-        //copy the values
-        //smooth them
-        //overwrite former values.
-    }*/
+
     Texture2D toTexture2D(RenderTexture rTex){
         Texture2D tex = new Texture2D(rTex.width, rTex.height, TextureFormat.RGB24, false);
         RenderTexture.active = rTex;
@@ -65,6 +51,8 @@ public class HeightMapDrawingBoard : MonoBehaviour
     }
 
     public void save(){
+        Texture2D tex =Blur(Resize(toTexture2D(map),100,100),5);
+        Graphics.Blit(tex,map);
         byte[] bytes = toTexture2D(map).EncodeToPNG();
         System.IO.File.WriteAllBytes("Assets/Resources/RunTimeImages/HeightMap.png", bytes);
     }
@@ -78,5 +66,60 @@ public class HeightMapDrawingBoard : MonoBehaviour
     }
     public Vector3 LocalPencilPosition(){//for outside use
         return GameObject.Find("Manche").transform.localPosition;
+    }
+
+
+    private Texture2D Blur(Texture2D image, int blurSize){//credits for this function : 
+                        //https://forum.unity.com/threads/contribution-texture2d-blur-in-c.185694/
+        Texture2D blurred = new Texture2D(image.width, image.height);
+     
+        // look at every pixel in the blur rectangle
+        for (int xx = 0; xx < image.width; xx++)
+        {
+            for (int yy = 0; yy < image.height; yy++)
+            {
+                float avgR = 0, avgG = 0, avgB = 0, avgA = 0;
+                int blurPixelCount = 0;
+     
+                // average the color of the red, green and blue for each pixel in the
+                // blur size while making sure you don't go outside the image bounds
+                for (int x = xx; (x < xx + blurSize && x < image.width); x++)
+                {
+                    for (int y = yy; (y < yy + blurSize && y < image.height); y++)
+                    {
+                        Color pixel = image.GetPixel(x, y);
+     
+                        avgR += pixel.r;
+                        avgG += pixel.g;
+                        avgB += pixel.b;
+                        avgA += pixel.a;
+     
+                        blurPixelCount++;
+                    }
+                }
+     
+                avgR = avgR / blurPixelCount;
+                avgG = avgG / blurPixelCount;
+                avgB = avgB / blurPixelCount;
+                avgA = avgA / blurPixelCount;
+     
+                // now that we know the average for the blur size, set each pixel to that color
+                for (int x = xx; x < xx + blurSize && x < image.width; x++)
+                    for (int y = yy; y < yy + blurSize && y < image.height; y++)
+                        blurred.SetPixel(x, y, new Color(avgR, avgG, avgB, avgA));
+            }
+        }
+        blurred.Apply();
+        return blurred;
+    }
+    Texture2D Resize(Texture2D texture2D,int targetX,int targetY){//credits : 
+                     //https://stackoverflow.com/questions/56949217/how-to-resize-a-texture2d-using-height-and-width
+        RenderTexture rt=new RenderTexture(targetX, targetY,24);
+        RenderTexture.active = rt;
+        Graphics.Blit(texture2D,rt);
+        Texture2D result=new Texture2D(targetX,targetY);
+        result.ReadPixels(new Rect(0,0,targetX,targetY),0,0);
+        result.Apply();
+        return result;
     }
 }
