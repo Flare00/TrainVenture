@@ -60,7 +60,23 @@ public class ProceduralGeneration : MonoBehaviour
         void LoadHeightmap()
         {
             var texture = Resources.Load<Texture2D>("RunTimeImages/HeightMap");
+             RenderTexture renderTex = RenderTexture.GetTemporary(
+                texture.width,
+                texture.height,
+                0,
+                RenderTextureFormat.Default,
+                RenderTextureReadWrite.Linear);
 
+            Graphics.Blit(texture, renderTex);
+
+
+            RenderTexture previous = RenderTexture.active;
+            RenderTexture.active = renderTex;
+            Texture2D readableText = new Texture2D(texture.width, texture.height);
+            readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
+            readableText.Apply();
+            RenderTexture.active = previous;
+            RenderTexture.ReleaseTemporary(renderTex);
             resolution = texture.width;
 
             terrain.terrainData.heightmapResolution = resolution;
@@ -73,7 +89,7 @@ public class ProceduralGeneration : MonoBehaviour
             {
                 for(int j = 0; j<resolution; j++)
                 {
-                    heightmap[i, j] = texture.GetPixel(i, j).grayscale;
+                    heightmap[i, j] = readableText.GetPixel(i, j).grayscale;
                     Debug.Log(heightmap[i, j]);
                 }
             }
