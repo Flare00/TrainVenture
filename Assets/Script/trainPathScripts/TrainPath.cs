@@ -4,6 +4,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Splines;
+using UnityEngine.XR.OpenXR.Input;
+using static TrainPath;
 using static Unity.Burst.Intrinsics.X86.Avx;
 
 public class TrainPath : MonoBehaviour
@@ -51,15 +53,6 @@ public class TrainPath : MonoBehaviour
         float decalage = size;
 
         size /= 5.0f;
-        foreach (Gare g in dataTrainPath.gares)
-        {
-            GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Gare/Gare") as GameObject);
-            go.name = g.cityName;
-            go.transform.SetParent(garesContainer.transform, false);
-
-            g.position[1] = terrain.SampleHeight(new Vector3(g.position[0], 0, g.position[2]));
-            go.transform.localPosition = (g.position * size) + new Vector3(decalage, 0, decalage);
-        }
 
         int increment = 0;
         foreach (Ligne l in dataTrainPath.lignes)
@@ -95,6 +88,41 @@ public class TrainPath : MonoBehaviour
             sc.Spline = l.spline;
             increment++;
         }
+
+        foreach (Gare g in dataTrainPath.gares)
+        {
+            GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Gare/Gare") as GameObject);
+            go.name = g.cityName;
+            go.transform.SetParent(garesContainer.transform, false);
+
+            g.position = (g.position * size) + new Vector3(decalage, 0, decalage);
+            g.position[1] = terrain.SampleHeight(new Vector3(g.position[0], 0, g.position[2]));
+            go.transform.localPosition = g.position;
+
+            bool found = false;
+            bool dir = false;
+            Vector3 pos = go.transform.localPosition + Vector3.right;
+            for (int i = 0; i < g.liaisons.Count && !found; i++)
+            {
+                if ((g.liaisons[i].l1.linkedPath == g && g.liaisons[i].l1.linkPoint <= 0.1f) || (g.liaisons[i].l2.linkedPath == g && g.liaisons[i].l2.linkPoint <= 0.1f))
+                {
+                    pos = FindSplineContainerByLigne(g.liaisons[i]).EvaluatePosition(0.0001f);
+                    found = true;
+                    dir = true;
+                }
+                else if ((g.liaisons[i].l1.linkedPath == g && g.liaisons[i].l1.linkPoint >= 0.9f) || (g.liaisons[i].l2.linkedPath == g && g.liaisons[i].l2.linkPoint >= 0.9f))
+                {
+                    pos = FindSplineContainerByLigne(g.liaisons[i]).EvaluatePosition(0.9999f);
+                    found = true;
+                    dir = false;
+                }
+            }
+            if (found)
+            {
+                go.transform.localRotation = Quaternion.LookRotation(Vector3.Cross(Vector3.up, dir ? go.transform.localPosition - pos : pos - go.transform.localPosition), Vector3.up);
+            }
+        }
+
 
 
     }
