@@ -17,10 +17,9 @@ public class HeightMapDrawMenu : MonoBehaviour
     public void ChangeElevation(){
         board.changeElevation();
     }
-    /*public void smooth(){
-        board.smoothMap();
-    }*/
-
+    public void changePencilSize(){
+        board.changePencilSize();
+    }
     private void Start()
     {
         Controls.FORCE_RAYCAST = true;

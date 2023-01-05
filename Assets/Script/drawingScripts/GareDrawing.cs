@@ -23,9 +23,9 @@ public class GareDrawing : MonoBehaviour
 
         transform.SetParent(parent);
         transform.localPosition=new Vector3(garePos[0],0.05f,garePos[2]);
-        transform.Rotate(new Vector3(0,90,0));
+        transform.Rotate(new Vector3(0,-90,0));
         transform.Rotate(new Vector3(90,0,0));
-        transform.localScale*=0.02f;
+        transform.localScale*=0.03f;
 
         addGareMesh(parent);
 
