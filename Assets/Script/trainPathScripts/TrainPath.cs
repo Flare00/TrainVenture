@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.Splines;
 using UnityEngine.XR.OpenXR.Input;
@@ -39,8 +40,8 @@ public class TrainPath : MonoBehaviour
     public GameObject lignesContainer;
     public GameObject garesContainer;
 
-    public string customTrainPathName = "one";
-    public string trainPathName = "one";
+    private string customTrainPathName = "one";
+    private string trainPathName = "std";
 
     private DataTrainPath dataTrainPath;
     private List<LigneSplineContainer> lignesSplineContainers = new();
@@ -94,6 +95,13 @@ public class TrainPath : MonoBehaviour
             GameObject go = GameObject.Instantiate(Resources.Load("Prefabs/Gare/Gare") as GameObject);
             go.name = g.cityName;
             go.transform.SetParent(garesContainer.transform, false);
+
+            TextMeshPro[] tmps = go.GetComponentsInChildren<TextMeshPro>();
+
+            for(int i = 0; i < tmps.Length; i++)
+            {
+                tmps[i].SetText(g.cityName);
+            }
 
             g.position = (g.position * size) + new Vector3(decalage, 0, decalage);
             g.position[1] = terrain.SampleHeight(new Vector3(g.position[0], 0, g.position[2]));
