@@ -10,7 +10,7 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class Train : MonoBehaviour
 {
 
-    private struct LigneExtra
+    private class LigneExtra
     {
         public Ligne ligne;
         public float avancementByMeter;
@@ -66,6 +66,12 @@ public class Train : MonoBehaviour
     {
         ShopData.GetInstance().SubscribeUpgradeChange(LoadUpgradeData);
         UpdateData();
+
+        if (DataBetweenScene.custom)
+        {
+            avancement = currentLine.avancementByMeter * distWagon[0] * 4.0f;
+        }
+
     }
 
     /*private void FixedUpdate()

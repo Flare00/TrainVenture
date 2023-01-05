@@ -28,6 +28,7 @@ public class ProceduralGeneration : MonoBehaviour
         // Start is called before the first frame update
         void Start()
         {
+            loadHeightMap = DataBetweenScene.custom;
             terrain.enabled = true;
             terrain.drawInstanced = true;
             terrain.drawTreesAndFoliage = true;
