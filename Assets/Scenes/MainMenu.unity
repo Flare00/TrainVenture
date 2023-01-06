@@ -2506,6 +2506,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20876a687389fa448bb7f88d70d09c42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  backGround: {fileID: 7120873702675308940}
   mainMenu: {fileID: 64703151}
   optionsMenu: {fileID: 921530153163284597}
   cam: {fileID: 1329517643}

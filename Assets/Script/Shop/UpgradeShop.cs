@@ -10,6 +10,7 @@ public class UpgradeShop : MonoBehaviour
 {
     private readonly int MAX_UPGRADE = 6;
 
+
     public enum UpgradeType
     {
         MaxSpeed,
@@ -82,36 +83,42 @@ public class UpgradeShop : MonoBehaviour
         }
     }
 
+    public void Upgrade(int type)
+    {
+        //Upgrade((UpgradeType)type);
+    }
+
     public void Upgrade(UpgradeType type)
     {
-        if (true) // in the future will check if can buy the upgrade and remove the money
+        Debug.Log("YES");
+        // in the future will check if can buy the upgrade and remove the money
+
+        switch (type)
         {
-            switch (type)
-            {
-                case UpgradeType.MaxSpeed:
-                    if (data.upgrade.maxSpeed < MAX_UPGRADE)
-                    {
-                        data.upgrade.maxSpeed++;
-                        data.upgrade.maxSpeedSelected = data.upgrade.maxSpeed;
-                    }
-                    break;
-                case UpgradeType.Acceleration:
-                    if (data.upgrade.acceleration < MAX_UPGRADE)
-                    {
-                        data.upgrade.acceleration++;
-                        data.upgrade.accelerationSelected = data.upgrade.acceleration;
-                    }
-                    break;
-                case UpgradeType.Brake:
-                    if (data.upgrade.acceleration < MAX_UPGRADE)
-                    {
-                        data.upgrade.brake++;
-                        data.upgrade.brakeSelected = data.upgrade.brake;
-                    }
-                    break;
-            }
-            data.Save(ShopData.ShopType.Upgrade);
+            case UpgradeType.MaxSpeed:
+                if (data.upgrade.maxSpeed < MAX_UPGRADE)
+                {
+                    data.upgrade.maxSpeed++;
+                    data.upgrade.maxSpeedSelected = data.upgrade.maxSpeed;
+                }
+                break;
+            case UpgradeType.Acceleration:
+                if (data.upgrade.acceleration < MAX_UPGRADE)
+                {
+                    data.upgrade.acceleration++;
+                    data.upgrade.accelerationSelected = data.upgrade.acceleration;
+                }
+                break;
+            case UpgradeType.Brake:
+                if (data.upgrade.acceleration < MAX_UPGRADE)
+                {
+                    data.upgrade.brake++;
+                    data.upgrade.brakeSelected = data.upgrade.brake;
+                }
+                break;
         }
+        data.Save(ShopData.ShopType.Upgrade);
+
 
         UpdateIndicator(type);
     }
@@ -134,7 +141,7 @@ public class UpgradeShop : MonoBehaviour
             }
             data.Save(ShopData.ShopType.Upgrade);
         }
-        
+
 
         UpdateIndicator(type);
     }

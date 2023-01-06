@@ -188,7 +188,7 @@ public class Train : MonoBehaviour
 
                     if (i > 0)
                     {
-                        //wagons[i].transform.SetPositionAndRotation(pos, rotation);
+                        wagons[i].transform.SetPositionAndRotation(pos, rotation);
                     }
                     else
                     {

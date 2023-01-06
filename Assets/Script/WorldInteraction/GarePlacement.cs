@@ -30,9 +30,9 @@ public class GarePlacement : MonoBehaviour
         List<Gare> gares = new();
         List<Ligne> lignes = new();
 
-        Gare g1 = new Gare("One", new Vector3(0.1f, 0, 0.1f));
-        Gare g2 = new Gare("Two", new Vector3(0.5f, 0, 0.3f));
-        Gare g3 = new Gare("Three", new Vector3(0.7f, 0, 0.7f));
+        Gare g1 = new Gare("Oubliette", new Vector3(0.1f, 0, 0.1f));
+        Gare g2 = new Gare("Montpellier", new Vector3(0.5f, 0, 0.3f));
+        Gare g3 = new Gare("Avignon", new Vector3(0.7f, 0, 0.7f));
 
         gares.Add(g1); gares.Add(g2); gares.Add(g3);
 
@@ -56,7 +56,7 @@ public class GarePlacement : MonoBehaviour
         g3.liaisons.Add(l3);
 
         DataTrainPath dtp = new(gares, lignes);
-        SaveLoad.GetInstance().Save(dtp, "TrainPath/one.data");
+        SaveLoad.GetInstance().Save(dtp, "TrainPath/std.data");
 
 
     }

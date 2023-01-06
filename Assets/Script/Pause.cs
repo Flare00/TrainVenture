@@ -45,9 +45,12 @@ public class Pause : MonoBehaviour
 
         if(loader != null)
         {
-            if(transition.GetValue() < 0.01f)
+            if (transition != null)
             {
-                loader.allowSceneActivation = true;
+                if (transition.GetValue() < 0.01f)
+                {
+                    loader.allowSceneActivation = true;
+                }
             }
         }
     }
@@ -98,10 +101,18 @@ public class Pause : MonoBehaviour
 
     public void MainMenu()
     {
+        PAUSE_ENABLED = false;
+        /*pauseGO.SetActive(false);
+        Controls.FORCE_RAYCAST = false;
+        status = false;*/
+
         loader = SceneManager.LoadSceneAsync("MainMenu");
         loader.allowSceneActivation = false;
         Controls.FORCE_RAYCAST = false;
-        transition.Hide();
+        if(transition != null)
+        {
+            transition.Hide();
+        }
     }
 
 
